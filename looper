@@ -26,6 +26,6 @@ source /home/pi/pi-tube/config.sh
         # marquee optional time formats %l:%M:%S %p 10:34:21 PM 
 # ================================================================
       
-cvlc -ZLfqd $VIDEOPATH --no-video-title-show --no-random  --sub-source="marq{marquee=$TITLE $VERSION $PI_UID %l:%M %p,color=0xFFFFFF,position=10,size=11,x=20,y=10}:logo{file=$LOGOPATH, position=6,x=10,opacity=100}" --avcodec-hw=none --file-caching=0
+cvlc -ZLfqd $VIDEOPATH --no-video-title-show --no-random  --avcodec-hw=none --file-caching=0
 
 exit 0;

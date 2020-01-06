@@ -27,7 +27,7 @@ echo
 command -v jq >/dev/null 2>&1 || { 
     printf >&2 "I require jq but it's not installed, so I am installing it now.\n"; 
     # install jq for the json
-    apt-get install jq
+    apt-get install jq -y
 }
 # test for youtube-dl
 command -v youtube-dl >/dev/null 2>&1 || { 
@@ -38,19 +38,31 @@ command -v youtube-dl >/dev/null 2>&1 || {
 
     # make it executable so we can run it
     chmod a+rx /usr/local/bin/youtube-dl
-    
 }
 
+# test for bc 
+command -v bc >/dev/null 2&1 || {
+    printf >&2 "I require bc but it is not installed, so I am installing it now. \n";
+    apt-get install bc -y
+}
+
+printf "*** Dependencies succesfully installed. Now installing configuration files ***\n";
+
 echo
-printf "Installing configuration files...\n"
+printf "Installing desktop configuration files...\n"
 tar -xvf /home/pi/pi-tube/config.tar
 echo
-printf "Installing boot configuration files...\n"
+printf "Installing Raspian boot configuration files...\n"
 tar -xvf /home/pi/pi-tube/booter.tar
 echo
 
-printf "\n --- giving VLC access to run as sudo ---\n"
-sed -i 's/geteuid/getppid/' /usr/bin/vlc
+# ****** NO LONGER REQUIRED TO RUN AS ROOT ************
+# printf "\n --- giving VLC access to run as sudo ---\n"
+# sed -i 's/geteuid/getppid/' /usr/bin/vlc
+# *****************************************************
+
+# Begin user configuration session
+#---------------------------------
 
 while true; do
 	read -p "Do you wish to set the PI_UID now? (y/n)" yn
@@ -79,16 +91,24 @@ sudo -i -u pi bash << EOF
     # export current crontab to mycron
     crontab -l > mycron_old
     
-    # write new mycron
-    echo "@reboot /home/pi/pi-tube/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron && /home/pi/pi-tube/push" > mycron
-    echo "*/15 * * * * /home/pi/pi-tube/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron && /home/pi/pi-tube/push" >> mycron
-
+    # write new mycron -- 
+    # Fetch on boot timestamp to last_cron
+    echo "@reboot /home/pi/pi-tube/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron" > mycron
+    
+    # Every 6hrs fetch and timestamp to last_cron
+    echo "* */6 * * * /home/pi/pi-tube/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron" >> mycron
+    
+    # Ever 15min push heartbeat and timestamp to last_cron
+    echo "*/15 * * * * /home/pi/pi-tube/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron" >> mycron
+    
     # install new cron file
     crontab mycron
     rm mycron
 EOF
 
 # exit out
-printf "\nWell done, young Jedi Commander!\n"
-printf "The Omni-installation is now complete. Please reboot to begin process.\n"
+printf "\nWell done, young Commander!\n"
+printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
+printf "I will begin playing the videos in a loop once he download completes."
+
 exit 0;
