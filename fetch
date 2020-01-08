@@ -41,7 +41,7 @@ while [ 1 ]
 inventory=()
 
 for file in ${VIDEOPATH}/*; do
-  part="${file##*_}" # Use PE to get the id as the part after the last '_'
+  part="${file##*-}" # Use PE to get the id as the part after the last '_'
   vid="${part%.*}"
   inventory+=( "$vid" )
 done
@@ -93,7 +93,7 @@ for i in "${!diff[@]}"
         echo "$TIMESTAMP executed: youtube-dl: ${start}_${PI_UID}_${diff[$i]}.mp4" >> $fetchLog
         
         # --no-warnings --ignore-errors 
-        /usr/local/bin/youtube-dl --no-mtime --format mp4  --ignore-config --prefer-ffmpeg https://www.youtube.com/watch?v=${diff[$i]} -o $VIDEOPATH/${start}_${PI_UID}_${diff[$i]}.mp4
+        /usr/local/bin/youtube-dl --no-mtime --format mp4  --ignore-config --prefer-ffmpeg https://www.youtube.com/watch?v=${diff[$i]} -o $VIDEOPATH/${start}_${PI_UID}-${diff[$i]}.mp4
 
         # increment counter 
         start=$(expr $start + 1)
