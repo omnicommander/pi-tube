@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-TITLE="Nashville TN OmniTube"                       # displays on lower right corner (empty for blank)
-LOGOPATH="/home/pi/pi-tube/img/logo.png"            # omnicommander logo image (empty for blank or none)
+TITLE=""                       # displays on lower right corner (empty for blank)
+LOGOPATH=""            # omnicommander logo image (empty for blank or none)
 JSONPATH="/home/pi/pi-tube/json"          	    # path for json file from server.
 VIDEOPATH="/home/pi/pi-tube/video"                  # path for fetch to store video mp4 files
 fetchLog="/home/pi/pi-tube/fetch.log"               # path for logging 
