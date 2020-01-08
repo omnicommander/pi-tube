@@ -76,10 +76,6 @@ object='{
                 "host_ip": "'"${host_ip}"'",
                 "WIFI": "'"${wifi}"'",
                 "version" : "'"$VERSION"'",
-                "vlc-config":{
-                        "logopath" : "'"$LOGOPATH"'",
-                        "title": "'"$TITLE"'"
-                        }
             },
             "services" : 
             {
