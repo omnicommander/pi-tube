@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# OmniTube v1.0 -- Scott Fleming
-# scott@omnicommander.com
+# OmniTube v1.0 -- OMNICOMMANDER
+# bradshaw@omnicommander.com
 # ================================================================
 source /home/pi/pi-tube/config.sh
 

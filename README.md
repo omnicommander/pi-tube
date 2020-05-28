@@ -83,7 +83,7 @@ The following happens on install:
  `fetch` records to a logfile, for troubleshooting:  
 
  ```
- 2019-12-26 15:45:01 Running Fetch Application - v1.3 by Scott Fleming
+ 2019-12-26 15:45:01 Running Fetch Application - v1.3 by OMNICOMMANDER
 2019-12-26 15:45:01 Current inventory IDs: uzQ9kxs6RL8 M69uwmXb6GM X675jPEP9Fw 68cGgU2pSE0 dGStpJuIReM
 2019-12-26 15:45:01 IDs from host: uzQ9kxs6RL8 M69uwmXb6GM X675jPEP9Fw 68cGgU2pSE0 dGStpJuIReM
 2019-12-26 15:45:01 Found differences: 

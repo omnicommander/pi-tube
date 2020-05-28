@@ -85,6 +85,11 @@ printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 
 
+# turn off screen blanking 
+printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm-conf
+
+
+
 # configure cron for boot to run as pi
 # change to pi user for the following EOF
 sudo -i -u pi bash << EOF

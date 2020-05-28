@@ -8,7 +8,7 @@
 # Load our vairables to be used -- 
 source /home/pi/pi-tube/config.sh
 
-printf "$TIMESTAMP Running Fetch Application - v1.3 by Scott Fleming\n" >> $fetchLog
+printf "$TIMESTAMP Running Fetch Application - v1.3 by OMNICOMMANDER\n" >> $fetchLog
 
 # create directories, if not already there
 mkdir -p $VIDEOPATH
