@@ -86,7 +86,7 @@ printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n"
 
 
 # turn off screen blanking 
-printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm-conf
+printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
 
 
 
