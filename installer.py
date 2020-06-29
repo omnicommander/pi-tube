@@ -72,17 +72,17 @@ print('''*** Dependencies successfully installed. Now installing
 configuration files ***\n''')
 
 print('Installing desktop configuration files...\n')
-sp.call(['tar', '-xvf' '/home/pi/pi-tube/config.tar'])
+sp.call(['tar', '-xvf' '/home/pi/OC-DigitalSignage/config.tar'])
 
 print('Installing Raspian boot configuration files... \n')
-sp.call(['tar', '-xvf', '/home/pi/pi-tube/booter.tar'])
+sp.call(['tar', '-xvf', '/home/pi/OC-DigitalSignage/booter.tar'])
 
 # User configuration ------------------------------------------------ #
 while True:
     yn = input('Do you wish to set the PI_UID now? (y/n)')[0]
 
     if yn == 'y' or 'Y':
-        sp.call(['nano', '/home/pi/pi-tube/config.sh'])
+        sp.call(['nano', '/home/pi/OC-DigitalSignage/config.sh'])
     elif yn == 'n' or 'N':
         print('You can edit the config.sh at any time.\n Bye for now!')
     else:
