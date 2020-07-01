@@ -29,16 +29,6 @@ command -v jq >/dev/null 2>&1 || {
     # install jq for the json
     apt-get install jq -y
 }
-# test for youtube-dl
-command -v youtube-dl >/dev/null 2>&1 || {
-    printf >&2 "I require youtube-dl but it's not installed, so I am installing it now.\n";
-
-    # install youtube-dl
-    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-
-    # make it executable so we can run it
-    chmod a+rx /usr/local/bin/youtube-dl
-}
 
 # test for bc
 command -v bc >/dev/null 2&1 || {
@@ -67,7 +57,7 @@ echo
 while true; do
 	read -p "Do you wish to set the PI_UID now? (y/n)" yn
     case $yn in
-        [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
+        [Yy]* ) nano /home/pi/OC-DigitalSignage/signage.conf; break;;
         [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
         * ) printf "Please answer yes or no or I will ask you again.\n";;
     esac
@@ -113,6 +103,13 @@ sudo -i -u pi bash << EOF
     crontab mycron
     rm mycron
 EOF
+
+# Create venv and activate it
+python3 -m venv venv
+source venv/bin/activate
+
+# Install all required modules
+python3 -m pip install -r requirements.txt
 
 # exit out
 printf "\nWell done, young Commander!\n"
