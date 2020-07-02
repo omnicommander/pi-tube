@@ -2,4 +2,4 @@
 
 ## Installation
 To start installation run the install script by navigation to the project folder with
-`cd OC-DigitalSignage`
+```cd OC-DigitalSignage```
