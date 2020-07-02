@@ -57,7 +57,7 @@ echo
 while true; do
 	read -p "Do you wish to set the PI_UID now? (y/n)" yn
     case $yn in
-        [Yy]* ) nano /home/pi/OC-DigitalSignage/signage.conf; break;;
+        [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
         [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
         * ) printf "Please answer yes or no or I will ask you again.\n";;
     esac
@@ -77,8 +77,6 @@ printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n"
 
 # turn off screen blanking
 printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
-
-
 
 # configure cron for boot to run as pi
 # change to pi user for the following EOF
@@ -103,6 +101,8 @@ sudo -i -u pi bash << EOF
     crontab mycron
     rm mycron
 EOF
+
+cd OC-DigitalSignage
 
 # Create venv and activate it
 python3 -m venv venv
