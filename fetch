@@ -46,6 +46,11 @@ def fetch(debug):
 
             s3.download_file('digitalsignagebucket', f'{PI_UID}/{video}', f'{video_path}/{video}')
 
+    # Delete all videos that are not in videos.json
+    for file in os.listdir(video_path):
+        if file not in videos and file.endswith('.mp4'):
+            os.remove(file)
+
     # Print debug information
     if debug:
         os.system('clear')
@@ -57,5 +62,4 @@ def fetch(debug):
 
 
 if __name__ == '__main__':
-    pass
-    # fetch(debug=True)
+    fetch(debug=True)
