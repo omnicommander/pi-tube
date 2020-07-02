@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+#=================================================================
+# OmniTube by Scott Fleming
+# scott@omnicommander.com
+# Video Display application
+#=================================================================
+
+# Load our vairables to be used --
+source /home/pi/OC-DigitalSignage/config.sh
+
+printf "$TIMESTAMP Running Fetch Application - v1.3 by OMNICOMMANDER\n" >> $fetchLog
+
+# create directories, if not already there
+mkdir -p $VIDEOPATH
+mkdir -p $JSONPATH
+
+# Make sure we're online. if not, wait for wifi to connect.
+INTERNET_STATUS="UNKNOWN"
+# TIMESTAMP=`date +%s`
+while [ 1 ]
+ do
+    ping -c 1 -W 0.7 8.8.4.4 > /dev/null 2>&1
+
+    if [ $? -eq 0 ] ; then
+        if [ "$INTERNET_STATUS" != "UP" ]; then
+            printf "$TIMESTAMP INTERNET UP $TIMESTAMP \n" >> $fetchLog ;
+            INTERNET_STATUS="UP"
+            break;
+        fi
+    else
+        if [ "$INTERNET_STATUS" = "UP" ]; then
+            printf "$TMESTAMP INTERNET DOWN $TIMESTAMP \n" >> $fetchLog;
+            INTERNET_STATUS="DOWN"
+        fi
+    fi
+    sleep 1
+ done;
+
+# Since we have internet access, let us proceed
+
+inventory=()
+
+for file in ${VIDEOPATH}/*; do
+  part="${file##*-}" # Use PE to get the id as the part after the last '_'
+  vid="${part%.*}"
+  inventory+=( "$vid" )
+done
+
+# Call home for json array of youtube video ids
+printf "$TIMESTAMP Current inventory IDs:\n" >> $fetchLog
+for x in ${inventory[@]}; do
+    printf "\t$x\n" >> $fetchLog
+done
+
+/usr/bin/curl -s -H "Content-Type: application/json" -X GET "$URL$PI_UID" -o $JSONPATH/file.json
+
+# use jq to parse array of json and load into arr
+arr=( $(jq -r '.[].youtube_id' $JSONPATH/file.json ) )
+
+printf "$TIMESTAMP IDs from host:\n" >> $fetchLog
+for z in  ${arr[@]}; do
+    printf "\t$z\n" >> $fetchLog
+done
+
+
+# compare inventory with arr of youtube ids we just got from server
+diff=()
+for i in "${arr[@]}"; do
+    skip=
+    for j in "${inventory[@]}"; do
+        [[ $i == $j ]] && { skip=1; break; }
+    done
+
+    [[ -n $skip ]] || diff+=("$i")
+done
+
+echo "$TIMESTAMP Found differences: ${!diff[@]}" >> $fetchLog
+
+# get our starting increment number
+for counter in "${!inventory[@]}"; do
+    start=$counter
+done
+start=$(expr $start + 2)
+
+echo "$TIMESTAMP Starting at $start" >> $fetchLog
+
+# iterate diff array and issue youtube-dl command for the id's
+#
+for i in "${!diff[@]}"
+  do
+
+        # download our video
+        echo "$TIMESTAMP executed: youtube-dl: ${start}_${PI_UID}_${diff[$i]}.mp4" >> $fetchLog
+
+        # --no-warnings --ignore-errors
+        /usr/local/bin/youtube-dl --no-mtime --format mp4  --ignore-config --prefer-ffmpeg https://www.youtube.com/watch?v=${diff[$i]} -o $VIDEOPATH/${start}_${PI_UID}-${diff[$i]}.mp4
+
+        # increment counter
+        start=$(expr $start + 1)
+
+done
+
+# compare when finished to clean up files which are no longer in arr.
+# ===================================================================
+
+Array3=()
+for i in "${inventory[@]}"; do
+    skip=
+    for j in "${arr[@]}"; do
+        [[ $i == $j ]] && { skip=1; break; }
+    done
+    [[ -n $skip ]] || Array3+=("$i")
+done
+
+# Iterate Array3 and remove these files
+for d in "${Array3[@]}"; do
+    echo "$TIMESTAMP deleteing ${VIDEOPATH}/ like *${d}*" >> $fetchLog
+    find "${VIDEOPATH}/" -name "*${d}*" -type f -exec rm {} +
+done
+
+# push our status
+/home/pi/OC-DigitalSignage/push
+
+
+# stop vlc if it's running or frozen
+echo "$TIMESTAMP pkill -9 vlc" >> $fetchLog
+
+pkill -9 vlc
+
+# Run the looper script
+echo "$TIMESTAMP Start vlc" >> $fetchLog
+
+# Fire the weapon
+/home/pi/OC-DigitalSignage/looper &
+
+echo "$TIMESTAMP Bye" >> $fetchLog
+echo >> $fetchLog
+exit 0;
