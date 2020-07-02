@@ -2,6 +2,12 @@
 # =================================
 # sudo ./install
 # =================================
+
+clear
+
+# Source config to access the variables
+source config.sh
+
 if [ "$EUID" -ne 0 ]
   then printf "Please run install with sudo!  sudo ./install "
   exit
@@ -75,8 +81,9 @@ printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 
 
-# turn off screen blanking
-printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
+# turn off screen blanking and hide mouse cursor !!PERMANENT!!
+printf "xserver-command=X -s 0 dpms\n" >> /etc/lightdm/lightdm.conf
+printf "xserver-command = X -nocursor" >> /etc/lightdm/lightdm.conf
 
 # configure cron for boot to run as pi
 # change to pi user for the following EOF
@@ -87,6 +94,9 @@ sudo -i -u pi bash << EOF
     # write new mycron --
     # Fetch on boot timestamp to last_cron
     echo "@reboot /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
+
+    # Start looper on reboot
+    echo @reboot /home/pi/OC-DigitalSignage/looper
 
     # Every 6hrs fetch and timestamp to last_cron
     echo "* */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
@@ -102,7 +112,7 @@ sudo -i -u pi bash << EOF
     rm mycron
 EOF
 
-cd OC-DigitalSignage
+cd $PROJECTPATH
 
 # Create venv and activate it
 python3 -m venv venv
@@ -114,6 +124,6 @@ python3 -m pip install -r requirements.txt
 # exit out
 printf "\nWell done, young Commander!\n"
 printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
-printf "I will begin playing the videos in a loop once he download completes."
+printf "I will begin playing the videos in a loop once he download completes.\n"
 
 exit 0;
