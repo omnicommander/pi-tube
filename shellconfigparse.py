@@ -47,3 +47,7 @@ def yeetComments(string):
         string: the string without comments
     """
     return string.partition('#')[0]
+
+if __name__ == '__main__':
+    selectFile('config.sh')
+    parse('PI_UID')
