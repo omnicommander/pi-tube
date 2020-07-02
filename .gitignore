@@ -6,3 +6,4 @@ last_cron
 videos/*
 venv
 __pycache__
+videos.json
