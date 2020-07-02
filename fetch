@@ -5,7 +5,7 @@ import json
 import os
 
 # Not required, but used just in case
-scp.selectFile('config.sh')
+scp.selectFile('yeet')
 
 # Assign values from config
 PI_UID = scp.parse('PI_UID')
@@ -13,16 +13,15 @@ video_path = scp.parse('VIDEOPATH')
 
 print(PI_UID)
 
-# Set s3 in boto3
-s3 = boto3.client('s3')
-
-
 def fetch(debug):
     """Downloads videos from AWS S3, given a list of videos
 
     Args:
         debug (boolean): prints useful information for debugging
     """
+
+    # Set s3 in boto3
+    s3 = boto3.client('s3')
 
     # Download videos.json
     s3.download_file('digitalsignagebucket', f'{PI_UID}/videos.json', 'videos.json')
