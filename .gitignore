@@ -3,5 +3,6 @@ json/
 *.log
 .vscode/
 last_cron
+videos/*
 venv
 __pycache__
