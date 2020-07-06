@@ -97,10 +97,10 @@ sudo -i -u pi bash << EOF
     echo "@reboot /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
 
     # Start looper on reboot
-    echo @reboot /home/pi/OC-DigitalSignage/looper
+    echo @reboot /home/pi/OC-DigitalSignage/looper > /home/pi/OC-DigitalSignage/last_cron" >> mycron
 
     # Every 6hrs fetch and timestamp to last_cron
-    echo "* */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+    echo "* */6 * * * /usr/bin/python3 /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
 
     # Every 15min push heartbeat and timestamp to last_cron
     echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
