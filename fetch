@@ -26,7 +26,7 @@ def fetch(debug):
     download_file(f'{JSONPATH}', 'videos.json')
 
     # Read the data from videos.json
-    with open('videos.json', 'r') as f:
+    with open(JSONPATH, 'r') as f:
         data = f.read()
         data = json.loads(data)
 
