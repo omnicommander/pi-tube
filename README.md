@@ -4,6 +4,10 @@ This is an extension of the original project, with the goal of transferring our 
 
 Most of the software is written in shell (bash), but is being translated into python for longevity
 
+### NOTE
+
+The mouse and most gui elements *WILL* be hidden by this software, so in order to edit anything in the device, you should either use the terminal emulator (launched with `ctrl-alt-t`) or ssh (`ssh pi@hostname`).
+
 ## Installation
 To start installation use
 
@@ -12,6 +16,3 @@ To start installation use
 and
 
 `$ sudo ./install`
-
-in the terminal.
-
