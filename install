@@ -125,7 +125,7 @@ python3 -m pip install -r requirements.txt
 # Throws an error if it is not there
 mkdir videos
 
-# Run fetch once so it will play on reboot
+# Run fetch once so looper will play on reboot
 ./fetch
 
 printf "Installation is now complete. Please reboot to begin use.\n"
