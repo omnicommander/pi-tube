@@ -12,6 +12,7 @@ scp.selectFile('config.sh')
 PI_UID = scp.parse('PI_UID')
 VIDEOPATH = scp.parse('VIDEOPATH')
 BUCKETURL = scp.parse('BUCKETURL')
+JSONPATH = scp.parse('JSONPATH')
 FULLURL = f'{BUCKETURL}{PI_UID}/'
 
 
@@ -22,7 +23,7 @@ def fetch(debug):
         debug (boolean): prints useful information for debugging
     """
     # Download videos.json from the server
-    download_file('videos.json', 'videos.json')
+    download_file(f'{JSONPATH}', 'videos.json')
 
     # Read the data from videos.json
     with open('videos.json', 'r') as f:
