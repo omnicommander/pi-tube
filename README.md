@@ -8,6 +8,8 @@ Most of the software is written in shell (bash), but is being translated into py
 
 The mouse and most gui elements *WILL* be hidden by this software, so in order to edit anything in the device, you should either use the terminal emulator (launched with `ctrl-alt-t`) or ssh (`ssh pi@hostname`).
 
+You should not need to run the install script more than once
+
 ## Installation
 To start installation use
 
