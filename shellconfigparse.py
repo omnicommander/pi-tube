@@ -28,20 +28,20 @@ def parse(key):
         data = {}
         for line in f:
             if 'TIMESTAMP' in line:
-                lines.append(yeetComments(line).rstrip())
+                lines.append(deleteComments(line).rstrip())
             else:
-                lines.append(yeetComments(line).rstrip().replace('"', ''))
+                lines.append(deleteComments(line).rstrip().replace('"', ''))
 
         data = dict(s.split('=',1) for s in lines)
 
         return data[key]
 
 
-def yeetComments(string):
+def deleteComments(string):
     """Deletes # comments
 
     Args:
-        string (string): the string you want to yeet comments from
+        string (string): the string you want to delete comments from
 
     Returns:
         string: the string without comments
