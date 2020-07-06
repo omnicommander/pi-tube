@@ -82,9 +82,8 @@ printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n"
 
 # turn off screen blanking and hide mouse cursor !!PERMANENT!!
 # Needs to be under the [SeatDefault] section to work properly
-printf "[SeatDefault]\n" >> /etc/lightdm/lightdm.conf
-printf "xserver-command=X -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
-printf "xserver-command = X -nocursor" >> /etc/lightdm/lightdm.conf
+printf "[Seat:*]\n" >> /etc/lightdm/lightdm.conf
+printf "xserver-command=X -nocursor -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
 
 # configure cron for boot to run as pi
 # change to pi user for the following EOF
