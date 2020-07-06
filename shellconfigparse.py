@@ -48,6 +48,7 @@ def deleteComments(string):
     """
     return string.partition('#')[0]
 
+
 if __name__ == '__main__':
     selectFile('config.sh')
     parse('PI_UID')
