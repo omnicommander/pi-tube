@@ -1,7 +1,7 @@
 #!venv/bin/python3
 
 # *** Default file is config.sh ***
-file = 'config.sh'
+file = '/home/pi/OC-DigitalSignage/config.sh'
 
 
 def selectFile(f):
