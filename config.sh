@@ -1,5 +1,5 @@
 PROJECTPATH="/home/pi/OC-DigitalSignage"
-JSONPATH="/home/pi/OC-DigitalSignage/json"          	    # path for json file from server.
+JSONPATH="/home/pi/OC-DigitalSignage/videos.json"          	    # path for json file from server.
 VIDEOPATH="/home/pi/OC-DigitalSignage/videos"                  # path for fetch to store video mp4 files
 fetchLog="/home/pi/OC-DigitalSignage/fetch.log"               # path for logging
 TIMESTAMP=`date "+%Y-%m-%d %H:%M:%S"`               # timestamp formatting for logger
