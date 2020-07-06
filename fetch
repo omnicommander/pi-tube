@@ -79,4 +79,4 @@ def download_file(file_path, file_name):
 
 
 if __name__ == '__main__':
-    fetch(debug=True)
+    fetch(debug=False)
