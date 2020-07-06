@@ -1,0 +1,7 @@
+#!/bin/bash
+# Literally just runs fetch (at the moment)
+
+source venv/bin/activate
+./fetch
+
+exit 0;
