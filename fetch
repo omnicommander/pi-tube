@@ -74,7 +74,8 @@ def download_file(file_path, file_name):
             for chunk in response.iter_content(chunk_size=128):
                 local_file.write(chunk)
     else:
-        print(f'\nUnable to download\nStatus code: {response.status_code}\n')
+        print(f'\nUnable to download\nStatus code: \
+		{response.status_code}\n')
         quit()
 
 
