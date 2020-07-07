@@ -33,7 +33,7 @@ jsonInv=( $(jq -r '.[].youtube_id' $JSONPATH/file.json ) )
 # Capture our IP address
 host_ip=$(hostname  -I | cut -f1 -d' ')
 
-# Can we grab Wifi shit? If it's configured then we should get it from the conf
+# Can we grab Wifi? If it's configured then we should get it from the conf
 ssid=$(awk -F "[{}]" '/"/ { print $1 }' /etc/wpa_supplicant/wpa_supplicant.conf)
 wifi=${ssid[@]//\"/}
 
@@ -88,5 +88,4 @@ object='{
 # Post our object to the server for capture.
 curl -H "Content-Type: application/json" -X POST http://34.193.150.151/dat-receive.php --data "$object"
 
-# And, get the fuck out.
 exit 0;
