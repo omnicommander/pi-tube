@@ -6,7 +6,7 @@ import os
 
 
 # Not required, but used just in case
-scp.selectFile('config.sh')
+scp.selectFile('/home/pi/config.sh')
 
 # Assign values from config
 PI_UID = scp.parse('PI_UID')
