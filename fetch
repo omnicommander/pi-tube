@@ -34,6 +34,11 @@ def fetch(debug):
         for entry in data:
             videos.append(entry)
 
+    # Delete all videos that are not in videos.json
+    for file in os.listdir(VIDEOPATH):
+        if file not in videos and file.endswith('.mp4'):
+            os.remove(f'{VIDEOPATH}/{file}')
+
     # Download every video file from videos.json
     for video in videos:
         # Don't download if the file exists
@@ -44,11 +49,6 @@ def fetch(debug):
             if debug:
                 os.system('clear')
                 print(f'\nDownloading {video}...\n')
-
-    # Delete all videos that are not in videos.json
-    for file in os.listdir(VIDEOPATH):
-        if file not in videos and file.endswith('.mp4'):
-            os.remove(file)
 
     # Print debug information
     if debug:
