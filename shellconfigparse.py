@@ -1,6 +1,6 @@
 #!venv/bin/python3
 
-# *** Default file is config.sh ***
+# Default file is config.sh
 file = '/home/pi/OC-DigitalSignage/config.sh'
 
 
@@ -51,4 +51,4 @@ def deleteComments(string):
 
 if __name__ == '__main__':
     selectFile('config.sh')
-    parse('PI_UID')
+    parse('PI_ID')

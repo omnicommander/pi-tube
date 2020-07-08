@@ -9,11 +9,11 @@ import os
 scp.selectFile('/home/pi/config.sh')
 
 # Assign values from config
-PI_UID = scp.parse('PI_UID')
+PI_ID = scp.parse('PI_ID')
 VIDEOPATH = scp.parse('VIDEOPATH')
 BUCKETURL = scp.parse('BUCKETURL')
 JSONPATH = scp.parse('JSONPATH')
-FULLURL = f'{BUCKETURL}{PI_UID}/'
+FULLURL = f'{BUCKETURL}{PI_ID}/'
 
 
 def fetch(debug):

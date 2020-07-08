@@ -59,7 +59,7 @@ done < "/home/pi/OC-DigitalSignage/last_cron"
 # Build an arch for through we will walk a free man
 object='{
          "timestamp": "'"$current_dt"'",
-          "PI_UID": "'"${PI_UID}"'",
+          "PI_ID": "'"${PI_ID}"'",
           "serialId" : "'"${serialId}"'",
           "environmental" :{
                 "tempC": "'"$tempC"'",

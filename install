@@ -61,7 +61,7 @@ echo
 #---------------------------------
 
 while true; do
-	read -p "Do you wish to set the PI_UID now? (Y/n)" yn
+	read -p "Do you wish to set the PI_ID now? (Y/n)" yn
     case $yn in
         [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
         [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
