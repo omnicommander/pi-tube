@@ -10,6 +10,7 @@ scp.selectFile('/home/pi/config.sh')
 
 # Assign values from config
 PI_ID = scp.parse('PI_ID')
+PROJECTPATH = scp.parse('PROJECTPATH')
 VIDEOPATH = scp.parse('VIDEOPATH')
 BUCKETURL = scp.parse('BUCKETURL')
 JSONPATH = scp.parse('JSONPATH')
@@ -49,6 +50,9 @@ def fetch(debug):
             if debug:
                 os.system('clear')
                 print(f'\nDownloading {video}...\n')
+
+    # Run the looper
+    os.system(f'{PROJECTPATH}/looper')
 
     # Print debug information
     if debug:
