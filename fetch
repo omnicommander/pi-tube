@@ -6,7 +6,7 @@ import os
 
 
 # Load config into dict
-config = scp.parse('config.sh') #/home/pi/OC-DigitalSignage/config.sh
+config = scp.parse('/home/pi/OC-DigitalSignage/config.sh')
 
 # Assign values from config
 PI_ID = config['PI_ID']
