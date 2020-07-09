@@ -7,4 +7,4 @@ URL="http://34.193.150.151/pi_callHome.php?id="     # url to server for requests
 AUTHOR="Eric Bradshaw bradshaw@omnicommander.com"      # author
 PI_ID="TestPi"   	                    # ID for this PI machine
 VERSION=1.4                                         # revision number
-BUCKETURL="https://digitalsignagebucket.s3.us-east-2.amazonaws.com/" # URL for the bucket
+BUCKETURL="https://digitalsignagebucket.s3.us-east-2.amazonaws.com" # URL for the bucket
