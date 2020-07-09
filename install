@@ -128,6 +128,9 @@ sudo -i -u pi bash << EOF
     ./fetch
 EOF
 
+# Move the setup script to the home folder
+mv /home/pi/OC-DigitalSignage/setup /home/pi/setup
+
 printf "Installation is now complete. Please reboot to begin use.\n"
 
 # exit out
