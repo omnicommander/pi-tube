@@ -127,6 +127,7 @@ sudo -i -u pi bash << EOF
     # Run fetch once so looper will play on reboot
     ./fetch
 EOF
+
 printf "Installation is now complete. Please reboot to begin use.\n"
 
 # exit out
