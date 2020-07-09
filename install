@@ -111,20 +111,22 @@ EOF
 
 cd $PROJECTPATH
 
-# Create venv and activate it
-python3 -m venv venv
-source venv/bin/activate
+# Required to run as pi, will fail miserably otherwise
+sudo -i -u pi bash << EOF
+    # Create venv and activate it
+    python3 -m venv venv
+    source venv/bin/activate
 
-# Install all required modules
-python3 -m pip install -r requirements.txt
+    # Install all required modules
+    python3 -m pip install -r requirements.txt
 
-# Makes the 'videos' directory
-# Throws an error if it is not there
-mkdir videos
+    # Makes the 'videos' directory
+    # Throws an error if it is not there
+    mkdir videos
 
-# Run fetch once so looper will play on reboot
-./fetch
-
+    # Run fetch once so looper will play on reboot
+    ./fetch
+EOF
 printf "Installation is now complete. Please reboot to begin use.\n"
 
 # exit out
