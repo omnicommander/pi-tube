@@ -72,7 +72,7 @@ done
 # Configure WIFI SSID and Password (sudo)
 printf
 read -p "Enter WIFI SSID: " SSID
-read -ps "Enter WIFI PASSWORD: " PASSWORD
+read -p -s "Enter WIFI PASSWORD: " PASSWORD
 
 # overwrite existing wpa configuration file
 printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
@@ -113,6 +113,9 @@ cd $PROJECTPATH
 
 # Required to run as pi, will fail miserably otherwise
 sudo -i -u pi bash << EOF
+    # cd to project
+    cd /home/pi/OC-DigitalSignage
+
     # Create venv and activate it
     python3 -m venv venv
     source venv/bin/activate
@@ -131,7 +134,7 @@ EOF
 # Move the setup script to the home folder
 mv /home/pi/OC-DigitalSignage/setup /home/pi/setup
 
-printf "Installation is now complete. Please reboot to begin use.\n"
+printf "Installation is now œœcomplete. Please reboot to begin use.\n"
 
 # exit out
 exit 0;
