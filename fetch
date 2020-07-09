@@ -46,8 +46,8 @@ def fetch():
             print(f'{video} has already been downloaded.\n')
             pass
         else:
-            download_file(f'{VIDEOPATH}/{video}', video)
             print(f'\nDownloading {video}...\n')
+            download_file(f'{VIDEOPATH}/{video}', video)
 
     # Run the looper
     os.system(f'{PROJECTPATH}/looper')
