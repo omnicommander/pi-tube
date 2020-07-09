@@ -14,8 +14,7 @@ PROJECTPATH = config['PROJECTPATH']
 VIDEOPATH = config['VIDEOPATH']
 BUCKETURL = config['BUCKETURL']
 JSONPATH = config['JSONPATH']
-FULLURL = f'{BUCKETURL}{PI_ID}/'
-
+FULLURL = f'{BUCKETURL}/{PI_ID}'
 
 def fetch():
     """Downloads videos from AWS S3, given a list of videos
@@ -68,7 +67,7 @@ def download_file(file_path, file_name):
         file_path (string): path for the downloaded file
         file_name (string): the name of the file to be downloaded
     """
-    response = requests.get(f'{FULLURL}{file_name}')
+    response = requests.get(f'{FULLURL}/{file_name}')
 
     if response.status_code == 200:
         with open(file_path, 'wb') as local_file:
