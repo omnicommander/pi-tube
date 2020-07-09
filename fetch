@@ -49,6 +49,9 @@ def fetch():
             print(f'\nDownloading {video}...\n')
             download_file(f'{VIDEOPATH}/{video}', video)
 
+    # Kill VLC before running the looper
+    os.system('killall vlc')
+
     # Run the looper
     os.system(f'{PROJECTPATH}/looper')
 
