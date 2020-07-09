@@ -1,7 +1,7 @@
 #!/bin/bash
-# Literally just runs fetch (at the moment)
+# Runs fetch and logs the output
 
 source venv/bin/activate
-./fetch
+./fetch >> /home/pi/OC-DigitalSignage/fetch.log
 
 exit 0;
