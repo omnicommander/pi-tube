@@ -1,27 +1,16 @@
 #!venv/bin/python3
-
-# Default file is config.sh
-file = '/home/pi/OC-DigitalSignage/config.sh'
-
-
-def selectFile(f):
-    """Selects the file to parse in parse()
-
-    Args:
-        f (string): the file
-    """
-    file = f
-    return file
+# To use this, you must call selectFile() and parse().
+# parse() returns a dictionary with the key/value pairs
 
 
-def parse(key):
+def parse(file):
     """Parses shell config file for value
 
     Args:
-        key (string): the key you want the value to
+        file (string): the config file to parse
 
     Returns:
-        string: the value of the key
+        dict: a dict of key/value pairs from config
     """
     with open(file, 'r') as f:
         lines = []
@@ -34,7 +23,7 @@ def parse(key):
 
         data = dict(s.split('=',1) for s in lines)
 
-        return data[key]
+        return data
 
 
 def deleteComments(string):
@@ -50,5 +39,4 @@ def deleteComments(string):
 
 
 if __name__ == '__main__':
-    selectFile('config.sh')
-    parse('PI_ID')
+    parse('config.sh')
