@@ -2,6 +2,6 @@
 # Runs fetch and logs the output
 
 source venv/bin/activate
-./fetch >> /home/pi/OC-DigitalSignage/fetch.log
+./fetch
 
 exit 0;
