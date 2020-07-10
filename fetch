@@ -62,7 +62,8 @@ def fetch():
     os.system(f'{PROJECTPATH}/looper')
 
     # Print debug information
-    print(f'* Finished at {dt.now().strftime('%H:%M:%S')}')
+    time = dt.now().strftime('%H:%M:%S')
+    print(f'* Finished at {time}')
     print('* Videos downloaded:')
     for video in videos:
         print(f'* {video}')
@@ -81,7 +82,7 @@ def download_file(file_path, file_name):
             for chunk in response.iter_content(chunk_size=128):
                 local_file.write(chunk)
     else:
-        print(f'* Unable to download\nStatus code: \
+        print(f'* Unable to download.\n* Status code: \
 		{response.status_code}')
         quit()
 
