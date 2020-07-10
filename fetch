@@ -1,4 +1,5 @@
 #!venv/bin/python3
+from datetime import datetime as dt
 import shellconfigparse as scp
 import requests
 import json
@@ -16,12 +17,13 @@ BUCKETURL = config['BUCKETURL']
 JSONPATH = config['JSONPATH']
 FULLURL = f'{BUCKETURL}/{PI_ID}'
 
+
 def fetch():
     """Downloads videos from AWS S3, given a list of videos
-
-    Args:
-        debug (boolean): prints useful information for debugging
     """
+    # Print the date and time for the log
+    print(f'{dt.now()}')
+
     # Download videos.json from the server
     download_file(f'{JSONPATH}', 'videos.json')
 
@@ -43,10 +45,10 @@ def fetch():
     for video in videos:
         # Don't download if the file exists
         if os.path.exists(f'{VIDEOPATH}/{video}'):
-            print(f'{video} has already been downloaded.\n')
+            print(f'{video} has already been downloaded.')
             pass
         else:
-            print(f'\nDownloading {video}...\n')
+            print(f'\nDownloading {video}...')
             download_file(f'{VIDEOPATH}/{video}', video)
 
     # Kill VLC before running the looper
@@ -56,11 +58,10 @@ def fetch():
     os.system(f'{PROJECTPATH}/looper')
 
     # Print debug information
-    print('\nFinished!\n')
+    print('Finished!')
     print('Videos downloaded:')
     for video in videos:
         print(video)
-    print('\n')
 
 
 def download_file(file_path, file_name):
