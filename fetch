@@ -42,6 +42,7 @@ def fetch():
     # Delete all videos that are not in videos.json
     for file in os.listdir(VIDEOPATH):
         if file not in videos and file.endswith('.mp4'):
+            print(f'# * Removing {file}...')
             os.remove(f'{VIDEOPATH}/{file}')
 
     # Download every video file from videos.json
@@ -61,7 +62,7 @@ def fetch():
     os.system(f'{PROJECTPATH}/looper')
 
     # Print debug information
-    print('# * Finished!')
+    print('#\n# * Finished!\n#\n')
     print('# * Videos downloaded:')
     for video in videos:
         print(f'# * {video}')
