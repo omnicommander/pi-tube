@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Lets grab some config data
-source /home/pi/pi-tube/config.sh
+source /home/pi/OC-DigitalSignage/config.sh
 
 current_dt="`date "+%Y-%m-%d %H:%M:%S"`";
 
@@ -54,22 +54,22 @@ uptime=$(uptime -s)
 while IFS= read -r line
 do
     last_cron="$line"
-done < "/home/pi/pi-tube/last_cron"
+done < "/home/pi/OC-DigitalSignage/last_cron"
 
 # Build an arch for through we will walk a free man
-object='{   
+object='{
          "timestamp": "'"$current_dt"'",
           "PI_UID": "'"${PI_UID}"'",
           "serialId" : "'"${serialId}"'",
           "environmental" :{
                 "tempC": "'"$tempC"'",
-                "tempF": "'"$tempF"'", 
-                "cpu_percent": "'"$cpu"'", 
-                "storageUsed": "'"${storageUsed::-2}"'", 
+                "tempF": "'"$tempF"'",
+                "cpu_percent": "'"$cpu"'",
+                "storageUsed": "'"${storageUsed::-2}"'",
                 "storageAvail": "'"$storageAvail"'"
           },
           "physical" : {
-                "lsVideo": "'"${lsVideo[@]}"'", 
+                "lsVideo": "'"${lsVideo[@]}"'",
                 "jsonInv": "'"${jsonInv[@]}"'"
           },
           "pi-config" : {
@@ -77,7 +77,7 @@ object='{
                 "WIFI": "'"${wifi}"'",
                 "version" : "'"$VERSION"'"
             },
-            "services" : 
+            "services" :
             {
                 "uptime_since" : "'"$uptime"'",
                 "last_cron" : "'"$last_cron"'",

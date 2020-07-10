@@ -2,11 +2,11 @@
 #=================================================================
 # OmniTube by Scott Fleming
 # scott@omnicommander.com
-# Video Display application 
+# Video Display application
 #=================================================================
 
-# Load our vairables to be used -- 
-source /home/pi/pi-tube/config.sh
+# Load our vairables to be used --
+source /home/pi/OC-DigitalSignage/config.sh
 
 printf "$TIMESTAMP Running Fetch Application - v1.3 by OMNICOMMANDER\n" >> $fetchLog
 
@@ -36,7 +36,7 @@ while [ 1 ]
     sleep 1
  done;
 
-# Since we have internet access, let us proceed 
+# Since we have internet access, let us proceed
 
 inventory=()
 
@@ -52,7 +52,7 @@ for x in ${inventory[@]}; do
     printf "\t$x\n" >> $fetchLog
 done
 
-/usr/bin/curl -s -H "Content-Type: application/json" -X GET "$URL$PI_UID" -o $JSONPATH/file.json 
+/usr/bin/curl -s -H "Content-Type: application/json" -X GET "$URL$PI_UID" -o $JSONPATH/file.json
 
 # use jq to parse array of json and load into arr
 arr=( $(jq -r '.[].youtube_id' $JSONPATH/file.json ) )
@@ -77,27 +77,27 @@ done
 echo "$TIMESTAMP Found differences: ${!diff[@]}" >> $fetchLog
 
 # get our starting increment number
-for counter in "${!inventory[@]}"; do 
+for counter in "${!inventory[@]}"; do
     start=$counter
 done
 start=$(expr $start + 2)
 
 echo "$TIMESTAMP Starting at $start" >> $fetchLog
 
-# iterate diff array and issue youtube-dl command for the id's 
-# 
-for i in "${!diff[@]}" 
+# iterate diff array and issue youtube-dl command for the id's
+#
+for i in "${!diff[@]}"
   do
-           
+
         # download our video
         echo "$TIMESTAMP executed: youtube-dl: ${start}_${PI_UID}_${diff[$i]}.mp4" >> $fetchLog
-        
-        # --no-warnings --ignore-errors 
+
+        # --no-warnings --ignore-errors
         /usr/local/bin/youtube-dl --no-mtime --format mp4  --ignore-config --prefer-ffmpeg https://www.youtube.com/watch?v=${diff[$i]} -o $VIDEOPATH/${start}_${PI_UID}-${diff[$i]}.mp4
 
-        # increment counter 
+        # increment counter
         start=$(expr $start + 1)
-   
+
 done
 
 # compare when finished to clean up files which are no longer in arr.
@@ -119,7 +119,7 @@ for d in "${Array3[@]}"; do
 done
 
 # push our status
-/home/pi/pi-tube/push
+/home/pi/OC-DigitalSignage/push
 
 
 # stop vlc if it's running or frozen
@@ -131,7 +131,7 @@ pkill -9 vlc
 echo "$TIMESTAMP Start vlc" >> $fetchLog
 
 # Fire the weapon
-/home/pi/pi-tube/looper &
+/home/pi/OC-DigitalSignage/looper &
 
 echo "$TIMESTAMP Bye" >> $fetchLog
 echo >> $fetchLog

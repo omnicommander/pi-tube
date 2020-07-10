@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =================================
-# sudo ./install 
+# sudo ./install
 # =================================
 if [ "$EUID" -ne 0 ]
   then printf "Please run install with sudo!  sudo ./install "
@@ -10,7 +10,7 @@ fi
 # go to root directory
 cd /
 
-# self-update 
+# self-update
 echo
 while true; do
 	read -p "Can I please run my self-update? (y/n)" yn
@@ -24,23 +24,23 @@ done
 echo
 
 # test for jq
-command -v jq >/dev/null 2>&1 || { 
-    printf >&2 "I require jq but it's not installed, so I am installing it now.\n"; 
+command -v jq >/dev/null 2>&1 || {
+    printf >&2 "I require jq but it's not installed, so I am installing it now.\n";
     # install jq for the json
     apt-get install jq -y
 }
 # test for youtube-dl
-command -v youtube-dl >/dev/null 2>&1 || { 
-    printf >&2 "I require youtube-dl but it's not installed, so I am installing it now.\n"; 
+command -v youtube-dl >/dev/null 2>&1 || {
+    printf >&2 "I require youtube-dl but it's not installed, so I am installing it now.\n";
 
-    # install youtube-dl 
+    # install youtube-dl
     curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
 
     # make it executable so we can run it
     chmod a+rx /usr/local/bin/youtube-dl
 }
 
-# test for bc 
+# test for bc
 command -v bc >/dev/null 2&1 || {
     printf >&2 "I require bc but it is not installed, so I am installing it now. \n";
     apt-get install bc -y
@@ -50,10 +50,10 @@ printf "*** Dependencies succesfully installed. Now installing configuration fil
 
 echo
 printf "Installing desktop configuration files...\n"
-tar -xvf /home/pi/pi-tube/config.tar
+tar -xvf /home/pi/OC-DigitalSignage/config.tar
 echo
 printf "Installing Raspian boot configuration files...\n"
-tar -xvf /home/pi/pi-tube/booter.tar
+tar -xvf /home/pi/OC-DigitalSignage/booter.tar
 echo
 
 # ****** NO LONGER REQUIRED TO RUN AS ROOT ************
@@ -67,14 +67,14 @@ echo
 while true; do
 	read -p "Do you wish to set the PI_UID now? (y/n)" yn
     case $yn in
-        [Yy]* ) nano /home/pi/pi-tube/config.sh; break;;
+        [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
         [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
         * ) printf "Please answer yes or no or I will ask you again.\n";;
     esac
 done
 
 # Configure WIFI SSID and Password (sudo)
-printf 
+printf
 read -p "Enter WIFI SSID: " SSID
 read -p "Enter WIFI PASSWORD: " PASSWORD
 
@@ -85,7 +85,7 @@ printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 
 
-# turn off screen blanking 
+# turn off screen blanking
 printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
 
 
@@ -95,17 +95,17 @@ printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
 sudo -i -u pi bash << EOF
     # export current crontab to mycron
     crontab -l > mycron_old
-    
-    # write new mycron -- 
+
+    # write new mycron --
     # Fetch on boot timestamp to last_cron
-    echo "@reboot /home/pi/pi-tube/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron" > mycron
-    
+    echo "@reboot /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
+
     # Every 6hrs fetch and timestamp to last_cron
-    echo "* */6 * * * /home/pi/pi-tube/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron" >> mycron
-    
+    echo "* */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+
     # Every 15min push heartbeat and timestamp to last_cron
-    echo "*/15 * * * * /home/pi/pi-tube/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/pi-tube/last_cron" >> mycron
-    
+    echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+
     # Every morning at 4am reboot
     echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
 
