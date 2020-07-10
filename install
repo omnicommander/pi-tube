@@ -127,6 +127,9 @@ sudo -i -u pi bash << EOF
     # Throws an error if it is not there
     mkdir videos
 
+    # Create fetch.log
+    touch fetch.log
+
     # Run fetch once so looper will play on reboot
     ./fetch
 EOF
