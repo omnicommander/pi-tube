@@ -65,7 +65,7 @@ def fetch():
     time = dt.now().strftime('%H:%M:%S')
     print(f'* Finished at {time}')
 
-    
+
 def download_file(file_path, file_name):
     """Downloads a file from the download link
 
