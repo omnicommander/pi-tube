@@ -51,7 +51,7 @@ def fetch():
             print(f'# * {video} has already been downloaded.')
             pass
         else:
-            print(f'\nDownloading {video}...')
+            print(f'# * Downloading {video}...')
             download_file(f'{VIDEOPATH}/{video}', video)
 
     # Kill VLC before running the looper
