@@ -1,7 +1,6 @@
 #!/bin/bash
 # Runs fetch and logs the output
 
-source venv/bin/activate
-./fetch
+/home/pi/OC-DigitalSignage/fetch >> /home/pi/OC-DigitalSignage/fetch.log
 
 exit 0;
