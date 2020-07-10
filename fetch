@@ -62,7 +62,7 @@ def fetch():
     os.system(f'{PROJECTPATH}/looper')
 
     # Print debug information
-    print(f'#\n# * Finished at {dt.now().strftime('%H:%M:%S')}\n#')
+    print(f'# * Finished at {dt.now().strftime('%H:%M:%S')}')
     print('# * Videos downloaded:')
     for video in videos:
         print(f'# * {video}')
