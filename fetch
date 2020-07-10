@@ -22,10 +22,10 @@ def fetch():
     """Downloads videos from AWS S3, given a list of videos
     """
     # Print separator for log
-    print('# ------------------------------ #')
+    print('* -------------------------------------------------------- *')
 
     # Print the date and time for the log
-    print(f'# {dt.now()}')
+    print(f'* {dt.now()}')
 
     # Download videos.json from the server
     download_file(f'{JSONPATH}', 'videos.json')
@@ -42,17 +42,17 @@ def fetch():
     # Delete all videos that are not in videos.json
     for file in os.listdir(VIDEOPATH):
         if file not in videos and file.endswith('.mp4'):
-            print(f'# * Removing {file}...')
+            print(f'* Removing {file}...')
             os.remove(f'{VIDEOPATH}/{file}')
 
     # Download every video file from videos.json
     for video in videos:
         # Don't download if the file exists
         if os.path.exists(f'{VIDEOPATH}/{video}'):
-            print(f'# * {video} has already been downloaded.')
+            print(f'* {video} has already been downloaded.')
             pass
         else:
-            print(f'# * Downloading {video}...')
+            print(f'* Downloading {video}...')
             download_file(f'{VIDEOPATH}/{video}', video)
 
     # Kill VLC before running the looper
@@ -62,10 +62,10 @@ def fetch():
     os.system(f'{PROJECTPATH}/looper')
 
     # Print debug information
-    print(f'# * Finished at {dt.now().strftime('%H:%M:%S')}')
-    print('# * Videos downloaded:')
+    print(f'* Finished at {dt.now().strftime('%H:%M:%S')}')
+    print('* Videos downloaded:')
     for video in videos:
-        print(f'# * {video}')
+        print(f'* {video}')
 
 def download_file(file_path, file_name):
     """Downloads a file from the download link
@@ -81,8 +81,8 @@ def download_file(file_path, file_name):
             for chunk in response.iter_content(chunk_size=128):
                 local_file.write(chunk)
     else:
-        print(f'\nUnable to download\nStatus code: \
-		{response.status_code}\n')
+        print(f'* Unable to download\nStatus code: \
+		{response.status_code}')
         quit()
 
 
