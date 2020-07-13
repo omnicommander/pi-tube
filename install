@@ -72,7 +72,7 @@ done
 # Configure WIFI SSID and Password (sudo)
 printf
 read -p "Enter WIFI SSID: " SSID
-read -p -s "Enter WIFI PASSWORD: " PASSWORD
+read -p "Enter WIFI PASSWORD: " PASSWORD
 
 # overwrite existing wpa configuration file
 printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
@@ -129,9 +129,6 @@ sudo -i -u pi bash << EOF
 
     # Create fetch.log
     touch fetch.log
-
-    # Run fetch once so looper will play on reboot
-    ./fetch
 EOF
 
 # Move the setup script to the home folder
