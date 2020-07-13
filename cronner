@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Runs fetch and logs the output
 
 /home/pi/OC-DigitalSignage/fetch >> /home/pi/OC-DigitalSignage/fetch.log
