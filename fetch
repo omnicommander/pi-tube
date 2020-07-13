@@ -76,7 +76,7 @@ def download_file(file_path, file_name):
 
     if response.status_code == 200:
         with open(file_path, 'wb') as local_file:
-            print(f'Downloading {file_name}...')
+            print(f'* Downloading {file_name}...')
             for chunk in response.iter_content(chunk_size=128):
                 local_file.write(chunk)
     else:
