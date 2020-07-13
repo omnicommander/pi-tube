@@ -81,7 +81,7 @@ def download_file(file_path, file_name):
                 local_file.write(chunk)
     else:
         print(f'* Unable to download.\n* Status code: \
-		{response.status_code}')
+        {response.status_code}')
         quit()
 
 
