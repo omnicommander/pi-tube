@@ -135,6 +135,6 @@ EOL
 # exit out
 printf "\nWell done, young Commander!\n"
 printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
-printf "I will begin playing the videos in a loop once he download completes."
+printf "I will begin playing the videos in a loop once the download completes."
 
 exit 0;
