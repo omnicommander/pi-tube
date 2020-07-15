@@ -85,8 +85,9 @@ printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 
 
-# turn off screen blanking
-printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
+# turn off screen blanking and cursor
+printf "[Seat:*]" >> /etc/lightdm/lightdm.conf
+printf "xserver-command=X -nocursor -s 0 dpms" >> /etc/lightdm/lightdm.conf
 
 
 
