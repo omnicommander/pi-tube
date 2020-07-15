@@ -79,6 +79,7 @@ echo -n "Enter WiFi name: "
 read SSID
 echo -n "Enter WiFi password: "
 read -s PASS
+echo
 
 # overwrite existing wpa configuration file
 printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
