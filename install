@@ -92,7 +92,6 @@ printf "[Seat:*]" >> /etc/lightdm/lightdm.conf
 printf "xserver-command=X -nocursor -s 0 dpms" >> /etc/lightdm/lightdm.conf
 
 
-
 # configure cron for boot to run as pi
 # change to pi user for the following EOF
 sudo -i -u pi bash << EOF
