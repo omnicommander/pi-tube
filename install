@@ -114,6 +114,24 @@ sudo -i -u pi bash << EOF
     rm mycron
 EOF
 
+# Install the setup script in the home folder
+cat > /home/pi/setup << EOL
+    #!/usr/bin/env bash
+
+    if [ "$EUID" -ne 0 ]
+    then printf "Please run setup with sudo!  sudo ./setup "
+    exit
+    fi
+
+    read -p "Enter WiFi password: " SSID
+    read -p "Enter WiFi password: " PASS
+
+    printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
+    printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+    printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+    printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+EOL
+
 # exit out
 printf "\nWell done, young Commander!\n"
 printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
