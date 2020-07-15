@@ -12,14 +12,14 @@ cd /
 
 # self-update
 echo
-while true; do
-	read -p "Can I please run my self-update? (Y/n) " yn
-    case $yn in
-        [Yy]* ) apt update && apt dist-upgrade -y; break;;
-        [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
-        * ) apt update && apt dist-upgrade -y; break;;
-    esac
-done
+
+read -p "Can I please run my self-update? (Y/n) " yn
+case $yn in
+    [Yy]* ) apt update && apt dist-upgrade -y; break;;
+    [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
+    * ) apt update && apt dist-upgrade -y; break;;
+esac
+
 
 echo
 
@@ -64,14 +64,14 @@ echo
 # Begin user configuration session
 #---------------------------------
 
-while true; do
-	read -p "Do you wish to set the PI_UID now? (Y/n) " yn
-    case $yn in
-        [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
-        [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
-        * ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
-    esac
-done
+
+read -p "Do you wish to set the PI_UID now? (Y/n) " yn
+case $yn in
+    [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
+    [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
+    * ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
+esac
+
 
 # Configure WIFI SSID and Password (sudo)
 printf
