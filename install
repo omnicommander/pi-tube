@@ -3,7 +3,7 @@
 # sudo ./install
 # =================================
 if [ "$EUID" -ne 0 ]
-  then printf "Please run install with sudo!  sudo ./install "
+  then printf "Please run install with sudo!  sudo ./install\n"
   exit
 fi
 
@@ -13,7 +13,7 @@ cd /
 # self-update
 echo
 while true; do
-	read -p "Can I please run my self-update? (Y/n)" yn
+	read -p "Can I please run my self-update? (Y/n) " yn
     case $yn in
         [Yy]* ) apt update && apt dist-upgrade -y; break;;
         [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
@@ -65,7 +65,7 @@ echo
 #---------------------------------
 
 while true; do
-	read -p "Do you wish to set the PI_UID now? (Y/n)" yn
+	read -p "Do you wish to set the PI_UID now? (Y/n) " yn
     case $yn in
         [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
         [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
@@ -75,14 +75,17 @@ done
 
 # Configure WIFI SSID and Password (sudo)
 printf
-read -p "Enter WIFI SSID: " SSID
-read -p "Enter WIFI PASSWORD: " PASSWORD
+
+echo -n "Enter WiFi name: "
+read SSID
+echo -n "Enter WiFi password: "
+read -s PASS
 
 # overwrite existing wpa configuration file
 printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
 printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 
 
 # turn off screen blanking and cursor
@@ -117,25 +120,35 @@ EOF
 
 # Install the setup script in the home folder
 cat > /home/pi/setup << EOL
-    #!/usr/bin/env bash
+#!/usr/bin/env bash
 
-    if [ "$EUID" -ne 0 ]
-    then printf "Please run setup with sudo!  sudo ./setup "
+if [ "$EUID" -ne 0 ]
+    then printf "Please run setup with sudo!  sudo ./setup\n"
     exit
-    fi
+fi
 
-    read -p "Enter WiFi password: " SSID
-    read -p "Enter WiFi password: " PASS
+echo -n "Enter WiFi name: "
+read SSID
 
-    printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
-    printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-    printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-    printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+echo -n "Enter WiFi password: "
+read -s PASS
+
+clear
+
+printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
+printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+
+exit 0;
 EOL
+
+# Allow executing the setup script
+chmod +x /home/pi/setup
 
 # exit out
 printf "\nWell done, young Commander!\n"
 printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
-printf "I will begin playing the videos in a loop once the download completes."
+printf "I will begin playing the videos in a loop once the download completes.\n"
 
 exit 0;
