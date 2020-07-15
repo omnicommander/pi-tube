@@ -75,7 +75,6 @@ esac
 
 # Configure WIFI SSID and Password (sudo)
 printf
-
 echo -n "Enter WiFi name: "
 read SSID
 echo -n "Enter WiFi password: "
