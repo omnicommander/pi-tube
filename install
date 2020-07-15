@@ -13,11 +13,11 @@ cd /
 # self-update
 echo
 while true; do
-	read -p "Can I please run my self-update? (y/n)" yn
+	read -p "Can I please run my self-update? (Y/n)" yn
     case $yn in
         [Yy]* ) apt update && apt dist-upgrade -y; break;;
         [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
-        * ) printf "Please answer y or n or I will ask you again, and you don't want me wasting your time.\n.";;
+        * ) apt update && apt dist-upgrade -y; break;;
     esac
 done
 
@@ -65,11 +65,11 @@ echo
 #---------------------------------
 
 while true; do
-	read -p "Do you wish to set the PI_UID now? (y/n)" yn
+	read -p "Do you wish to set the PI_UID now? (Y/n)" yn
     case $yn in
         [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
         [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
-        * ) printf "Please answer yes or no or I will ask you again.\n";;
+        * ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
     esac
 done
 
