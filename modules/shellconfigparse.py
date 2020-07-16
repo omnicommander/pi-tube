@@ -2,7 +2,6 @@
 # To use this, you must call selectFile() and parse().
 # parse() returns a dictionary with the key/value pairs
 
-
 def parse(file):
     """Parses shell config file for value
 
