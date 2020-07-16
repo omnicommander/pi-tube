@@ -12,12 +12,12 @@ cd /
 
 # self-update
 echo
-echo "Can I please run my self-update? (Y/n) "
-read -n1 yn; echo; echo
+echo -n "Can I please run my self-update? (Y/n) "
+read -n1 yn; echo
 case $yn in
-    [Yy]* ) apt update && apt dist-upgrade -y; break;;
-    [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
-    * ) apt update && apt dist-upgrade -y; break;;
+    [Yy]* ) apt update && apt dist-upgrade -y;;
+    [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n";;
+    * ) apt update && apt dist-upgrade -y;;
 esac
 
 echo
@@ -63,12 +63,12 @@ echo
 # Begin user configuration session
 #---------------------------------
 
-echo "Do you wish to set the PI_UID now? (Y/n) "
-read -n1 yn; echo; echo
+echo -n "Do you wish to set the PI_UID now? (Y/n) "
+read -n1 yn; echo
 case $yn in
-    [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
-    [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
-    * ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
+    [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh;;
+    [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!\n";;
+    * ) nano /home/pi/OC-DigitalSignage/config.sh;;
 esac
 
 # Configure WIFI SSID and Password (sudo)
@@ -89,6 +89,8 @@ printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> 
 if [ ! -e "/etc/lightdm/original-lightdm.conf" ]; then
     echo "Installing custom lightdm.conf..."
     mv /etc/lightdm/lightdm.conf /etc/lightdm/original-lightdm.conf
+
+    touch /etc/lightdm/lightdm.conf
 
     # EOL indentation is sensitive, so leave it be
     cat > /etc/lightdm/lightdm.conf << EOL
@@ -150,12 +152,12 @@ read SSID
 echo -n "Enter WiFi password: "
 read -s PASS
 
-clear
-
 printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
 printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+
+printf "Success!\n"
 
 exit 0;
 EOL
