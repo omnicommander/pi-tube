@@ -69,17 +69,6 @@ while true; do
     esac
 done
 
-# Configure WIFI SSID and Password (sudo)
-printf
-read -p "Enter WIFI SSID: " SSID
-read -p "Enter WIFI PASSWORD: " PASSWORD
-
-# overwrite existing wpa configuration file
-printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
-printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-
 # turn off screen blanking and hide mouse cursor !!PERMANENT!!
 # Needs to be under the [SeatDefault] section to work properly
 printf "[Seat:*]\n" >> /etc/lightdm/lightdm.conf
@@ -93,7 +82,7 @@ sudo -i -u pi bash << EOF
 
     # write new mycron --
     # Fetch on boot timestamp to last_cron
-    echo "@reboot /home/pi/OC-DigitalSignage/cronner && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
+    echo "@reboot sleep 15;/home/pi/OC-DigitalSignage/fetch >> /home/pi/OC-DigitalSignage/fetch.log && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
 
     # Every 6hrs fetch and timestamp to last_cron
     echo "* */6 * * * /usr/bin/python3 /home/pi/OC-DigitalSignage/cronner && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
