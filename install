@@ -12,8 +12,8 @@ cd /
 
 # self-update
 echo
-
-read -p "Can I please run my self-update? (Y/n) " yn
+echo "Can I please run my self-update? (Y/n) "
+read -n1 yn; echo; echo
 case $yn in
     [Yy]* ) apt update && apt dist-upgrade -y; break;;
     [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
@@ -64,8 +64,8 @@ echo
 # Begin user configuration session
 #---------------------------------
 
-
-read -p "Do you wish to set the PI_UID now? (Y/n) " yn
+echo "Do you wish to set the PI_UID now? (Y/n) "
+read -n1 yn; echo; echo
 case $yn in
     [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
     [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
