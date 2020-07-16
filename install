@@ -49,16 +49,9 @@ printf "*** Dependencies succesfully installed. Now installing configuration fil
 
 echo
 printf "Installing desktop configuration files...\n"
-mkdir original_files
-cd /home/pi/OC-DigitalSignage/original_files
-tar -czvf original_config.tar.gz /home/pi/.config
-cd /
 tar -xvf /home/pi/OC-DigitalSignage/config.tar
 echo
 printf "Installing Raspian boot configuration files...\n"
-cd /home/pi/OC-DigitalSignage/original_files
-tar -czvf original_booter.tar.gz /booter
-cd /
 tar -xvf /home/pi/OC-DigitalSignage/booter.tar
 echo
 
