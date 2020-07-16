@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+echo -n "Are you sure you want to uninstall OC-DigitalSignage? (y/N) "
+read -n1 yn; echo; echo;
+
+case $yn in
+    [Yy]* ) echo "Uninstalling..."; echo;;
+    [Nn]* ) exit 0;;
+    * ) exit 0;;
+esac
+
+exit 0;
