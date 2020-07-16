@@ -13,7 +13,7 @@ cd /
 # self-update
 echo
 echo -n "Can I please run my self-update? (Y/n) "
-read -n1 yn; echo
+read yn; echo
 case $yn in
     [Yy]* ) apt update && apt dist-upgrade -y;;
     [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n";;
@@ -49,9 +49,16 @@ printf "*** Dependencies succesfully installed. Now installing configuration fil
 
 echo
 printf "Installing desktop configuration files...\n"
+mkdir original_files
+cd /home/pi/OC-DigitalSignage/original_files
+tar -czvf original_config.tar.gz /home/pi/.config
+cd /
 tar -xvf /home/pi/OC-DigitalSignage/config.tar
 echo
 printf "Installing Raspian boot configuration files...\n"
+cd /home/pi/OC-DigitalSignage/original_files
+tar -czvf original_booter.tar.gz /booter
+cd /
 tar -xvf /home/pi/OC-DigitalSignage/booter.tar
 echo
 
@@ -64,7 +71,7 @@ echo
 #---------------------------------
 
 echo -n "Do you wish to set the PI_UID now? (Y/n) "
-read -n1 yn; echo
+read yn; echo
 case $yn in
     [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh;;
     [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!\n";;
