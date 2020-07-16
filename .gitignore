@@ -3,4 +3,4 @@ json/
 *.log
 .vscode/
 last_cron
-
+venv
