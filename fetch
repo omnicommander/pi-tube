@@ -1,6 +1,6 @@
 #!/home/pi/OC-DigitalSignage/venv/bin/python3
 from datetime import datetime as dt
-import shellconfigparse as scp
+import modules.shellconfigparse as scp
 import requests
 import json
 import os
