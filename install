@@ -13,10 +13,10 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-# go to root directory
+# Go to root directory
 cd /
 
-# self-update
+# Self-update
 echo
 read -p "Can I please run my self-update? (Y/n) " yn
 case $yn in
@@ -27,14 +27,14 @@ esac
 
 echo
 
-# test for jq
+# Test for jq
 command -v jq >/dev/null 2>&1 || {
     printf >&2 "I require jq but it's not installed, so I am installing it now.\n";
     # install jq for the json
     apt-get install jq -y
 }
 
-# test for bc
+# Test for bc
 command -v bc >/dev/null 2&1 || {
     printf >&2 "I require bc but it is not installed, so I am installing it now. \n";
     apt-get install bc -y
@@ -65,13 +65,13 @@ case $yn in
     * ) nano /home/pi/OC-DigitalSignage/config.sh;;
 esac
 
-# turn off screen blanking and hide mouse cursor !!PERMANENT!!
+# Turn off screen blanking and hide mouse cursor !!PERMANENT!!
 # Needs to be under the [SeatDefault] section to work properly
 printf "[Seat:*]\n" >> /etc/lightdm/lightdm.conf
 printf "xserver-command=X -nocursor -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
 
-# configure cron for boot to run as pi
-# change to pi user for the following EOF
+# Configure cron for boot to run as pi
+# Change to pi user for the following EOF
 sudo -i -u pi bash << EOF
 # export current crontab to mycron
 crontab -l > mycron_old
