@@ -98,6 +98,33 @@ sudo -i -u pi bash << EOF
     rm mycron
 EOF
 
+# Install the setup script in the home folder
+if [ ! -e "/home/pi/setup" ]; then
+cat > /home/pi/setup << EOL
+#!/usr/bin/env bash
+
+if [ "$EUID" -ne 0 ]
+    then printf "Please run setup with sudo!  sudo ./setup\n"
+    exit
+fi
+
+echo -n "Enter WiFi name: "
+read SSID
+
+echo -n "Enter WiFi password: "
+read -s PASS
+
+printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
+printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+
+printf "Success!\n"
+
+exit 0;
+EOL
+fi
+
 cd $PROJECTPATH
 
 # Required to run as pi, will fail miserably otherwise
