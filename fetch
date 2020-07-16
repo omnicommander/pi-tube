@@ -23,13 +23,13 @@ while [ 1 ]
 
     if [ $? -eq 0 ] ; then
         if [ "$INTERNET_STATUS" != "UP" ]; then
-            printf "$TIMESTAMP INTERNET UP $TIMESTAMP \n" >> $fetchLog ;
+            printf "$TIMESTAMP INTERNET UP $TIMESTAMP \n" >> $fetchLog;
             INTERNET_STATUS="UP"
             break;
         fi
     else
         if [ "$INTERNET_STATUS" = "UP" ]; then
-            printf "$TMESTAMP INTERNET DOWN $TIMESTAMP \n" >> $fetchLog;
+            printf "$TIMESTAMP INTERNET DOWN $TIMESTAMP \n" >> $fetchLog;
             INTERNET_STATUS="DOWN"
         fi
     fi
