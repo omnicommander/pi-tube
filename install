@@ -18,14 +18,12 @@ cd /
 
 # self-update
 echo
-while true; do
-	read -p "Can I please run my self-update? (Y/n)" yn
-    case $yn in
-        [Yy]* ) apt update && apt dist-upgrade -y; break;;
-        [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
-        * ) apt update && apt dist-upgrade -y; break;;
-    esac
-done
+read -p "Can I please run my self-update? (Y/n) " yn
+case $yn in
+    [Yy]* ) apt update && apt dist-upgrade -y;;
+    [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n";;
+    * ) apt update && apt dist-upgrade -y;;
+esac
 
 echo
 
@@ -60,14 +58,12 @@ echo
 # Begin user configuration session
 #---------------------------------
 
-while true; do
-	read -p "Do you wish to set the PI_ID now? (Y/n)" yn
-    case $yn in
-        [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
-        [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!"; break;;
-        * ) nano /home/pi/OC-DigitalSignage/config.sh; break;;
-    esac
-done
+read -p "Do you wish to set the PI_ID now? (Y/n) " yn
+case $yn in
+    [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh;;
+    [Nn]* ) printf "You can always edit the config.sh anytime.\n";;
+    * ) nano /home/pi/OC-DigitalSignage/config.sh;;
+esac
 
 # turn off screen blanking and hide mouse cursor !!PERMANENT!!
 # Needs to be under the [SeatDefault] section to work properly
@@ -77,25 +73,25 @@ printf "xserver-command=X -nocursor -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
 # configure cron for boot to run as pi
 # change to pi user for the following EOF
 sudo -i -u pi bash << EOF
-    # export current crontab to mycron
-    crontab -l > mycron_old
+# export current crontab to mycron
+crontab -l > mycron_old
 
-    # write new mycron --
-    # Fetch on boot timestamp to last_cron
-    echo "@reboot sleep 15;/home/pi/OC-DigitalSignage/fetch >> /home/pi/OC-DigitalSignage/fetch.log && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
+# write new mycron --
+# Fetch on boot timestamp to last_cron
+echo "@reboot sleep 15;/home/pi/OC-DigitalSignage/fetch >> /home/pi/OC-DigitalSignage/fetch.log && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
 
-    # Every 6hrs fetch and timestamp to last_cron
-    echo "* */6 * * * /usr/bin/python3 /home/pi/OC-DigitalSignage/cronner && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+# Every 6hrs fetch and timestamp to last_cron
+echo "* */6 * * * /usr/bin/python3 /home/pi/OC-DigitalSignage/cronner && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
 
-    # Every 15min push heartbeat and timestamp to last_cron
-    echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+# Every 15min push heartbeat and timestamp to last_cron
+echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
 
-    # Every morning at 4am reboot
-    echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
+# Every morning at 4am reboot
+echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
 
-    # install new cron file
-    crontab mycron
-    rm mycron
+# install new cron file
+crontab mycron
+rm mycron
 EOF
 
 # Install the setup script in the home folder
@@ -129,25 +125,24 @@ cd $PROJECTPATH
 
 # Required to run as pi, will fail miserably otherwise
 sudo -i -u pi bash << EOF
-    # cd to project
-    cd /home/pi/OC-DigitalSignage
+# cd to project
+cd /home/pi/OC-DigitalSignage
 
-    # Create venv and activate it
-    python3 -m venv venv
-    source venv/bin/activate
+# Create venv and activate it
+python3 -m venv venv
+source venv/bin/activate
 
-    # Install all required modules
-    python3 -m pip install -r requirements.txt
+# Install all required modules
+python3 -m pip install -r requirements.txt
 
-    # Makes the 'videos' directory
-    # Throws an error if it is not there
-    mkdir videos
+# Makes the 'videos' directory
+# Throws an error if it is not there
+mkdir videos
 
-    # Create fetch.log
-    touch fetch.log
+# Create fetch.log
+touch fetch.log
 EOF
 
-printf "Installation is now œœcomplete. Please reboot to begin use.\n"
+printf "Installation is now complete. Please reboot to begin use.\n"
 
-# exit out
-exit 0;
+exit 0
