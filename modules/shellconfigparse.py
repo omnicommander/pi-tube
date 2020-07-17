@@ -1,6 +1,11 @@
 #!venv/bin/python3
-# To use this, you must call selectFile() and parse().
-# parse() returns a dictionary with the key/value pairs
+# To use this, call parse(filename)
+# Parse() returns a dictionary with the key/value pairs
+# Assign a variable to the output of parse()
+# For example:
+#   data = parse('config.sh')
+#   my_var = data['var']
+
 
 def parse(file):
     """Parses shell config file for value
