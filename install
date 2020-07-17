@@ -25,21 +25,6 @@ esac
 
 echo
 
-# Test for jq
-command -v jq >/dev/null 2>&1 || {
-    printf >&2 "I require jq but it is not installed, so I am installing it now.\n";
-    # install jq for the json
-    apt-get install jq -y
-}
-
-# Test for bc
-command -v bc >/dev/null 2&1 || {
-    printf >&2 "I require bc but it is not installed, so I am installing it now. \n";
-    apt-get install bc -y
-}
-
-printf "*** Dependencies succesfully installed. Now installing configuration files ***\n";
-
 echo
 printf "Installing desktop configuration files...\n"
 tar -xvf /home/pi/OC-DigitalSignage/config.tar
