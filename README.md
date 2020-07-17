@@ -7,7 +7,9 @@ Most of the software is written in shell (bash), but is being translated into py
 
 The mouse and most gui elements *WILL* be hidden by this software, so in order to edit anything in the device, you should either use the terminal emulator (launched with `ctrl-alt-t`) or ssh (`ssh pi@hostname`).
 
-You should not need to run the install script more than once
+You should not need to run the install script more than once.
+
+Your user's name MUST be "pi" in order to work properly (currently).
 
 # Installation
 To start installation use
@@ -25,7 +27,7 @@ In order to easily change the WiFi settings, run the setup script by going to yo
 
 `sudo ./config`
 
-It will prompt you to enter your WiFi name and password
+It will prompt you to enter your WiFi name and password.
 
 # Troubleshooting
 One of the most common problems when running this script is incomplete dependencies.
