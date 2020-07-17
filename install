@@ -105,6 +105,7 @@ fi
 cd $PROJECTPATH
 
 # Required to run as pi, will fail miserably otherwise
+if [ ! -e "/home/pi/OC-DigitalSignage/venv" ]
 sudo -i -u pi bash << EOF
 # cd to project
 cd /home/pi/OC-DigitalSignage
@@ -123,6 +124,7 @@ mkdir videos
 # Create fetch.log
 touch fetch.log
 EOF
+fi
 
 printf "Installation is now complete. Please reboot to begin use.\n"
 
