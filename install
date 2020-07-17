@@ -3,13 +3,11 @@
 # sudo ./install
 # =================================
 
-clear
-
 # Source config to access the variables
-source config.sh
+source /home/pi/OC-DigitalSignage/config.sh
 
 if [ "$EUID" -ne 0 ]
-  then printf "Please run install with sudo!  sudo ./install "
+  then printf "Please run install with sudo!  sudo ./install\n"
   exit
 fi
 
@@ -21,7 +19,7 @@ echo
 read -p "Can I please run my self-update? (Y/n) " yn
 case $yn in
     [Yy]* ) apt update && apt dist-upgrade -y;;
-    [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n";;
+    [Nn]* ) printf "\nHey! I may not run correctly, so you had your chance and you blew it.\n";;
     * ) apt update && apt dist-upgrade -y;;
 esac
 
@@ -29,7 +27,7 @@ echo
 
 # Test for jq
 command -v jq >/dev/null 2>&1 || {
-    printf >&2 "I require jq but it's not installed, so I am installing it now.\n";
+    printf >&2 "I require jq but it is not installed, so I am installing it now.\n";
     # install jq for the json
     apt-get install jq -y
 }
