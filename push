@@ -12,9 +12,6 @@ serialId=$(cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2)
 # Celcius of CPU
 tempC=$(vcgencmd measure_temp | egrep -o '[0-9]*\.[0-9]*')
 
-# Farenheit of CPU
-tempF=$(echo "scale=2; 1.8 *$tempC + 32" | bc)
-
 # CPU utilization pecentiles
 cpu=`grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}'`
 
@@ -26,9 +23,6 @@ storageAvail=$(df -h | awk '$6 == "/" {print $4}')
 
 # Show ls of video directory
 lsVideo=($(ls -ls $VIDEOPATH | tail -n +2 | awk '{print $10}'))
-
-# Read json/file.json for current Video ID's we have
-jsonInv=( $(jq -r '.[].youtube_id' $JSONPATH/file.json ) )
 
 # Capture our IP address
 host_ip=$(hostname  -I | cut -f1 -d' ')
@@ -63,14 +57,12 @@ object='{
           "serialId" : "'"${serialId}"'",
           "environmental" :{
                 "tempC": "'"$tempC"'",
-                "tempF": "'"$tempF"'",
                 "cpu_percent": "'"$cpu"'",
                 "storageUsed": "'"${storageUsed::-2}"'",
                 "storageAvail": "'"$storageAvail"'"
           },
           "physical" : {
-                "lsVideo": "'"${lsVideo[@]}"'",
-                "jsonInv": "'"${jsonInv[@]}"'"
+                "lsVideo": "'"${lsVideo[@]}"'"
           },
           "pi-config" : {
                 "host_ip": "'"${host_ip}"'",
