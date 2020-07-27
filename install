@@ -33,14 +33,7 @@ printf "Installing Raspian boot configuration files...\n"
 tar -xvf /home/pi/OC-DigitalSignage/booter.tar
 echo
 
-# ****** NO LONGER REQUIRED TO RUN AS ROOT ************
-# printf "\n --- giving VLC access to run as sudo ---\n"
-# sed -i 's/geteuid/getppid/' /usr/bin/vlc
-# *****************************************************
-
-# Begin user configuration session
-#---------------------------------
-
+# Ask to set PI_ID
 read -p "Do you wish to set the PI_ID now? (Y/n) " yn
 case $yn in
     [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh;;
