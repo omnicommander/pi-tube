@@ -126,6 +126,9 @@ touch fetch.log
 EOF
 fi
 
+# Enable ssh, since it is not enabled by default
+systemctl enable ssh
+
 printf "Installation is now complete. Please reboot to begin use.\n"
 
 exit 0
