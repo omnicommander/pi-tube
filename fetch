@@ -74,6 +74,7 @@ def download_file(file_path, file_name):
     """
     response = requests.get(f'{FULLURL}/{file_name}')
 
+    # Write file in chunks of 128 bytes
     if response.status_code == 200:
         with open(file_path, 'wb') as local_file:
             print(f'* Downloading {file_name}...')
