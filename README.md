@@ -114,7 +114,6 @@ Server captures POST and stores in PUSH Mysql table, using UPDATE ON DUPLICATE K
 
 
 ### TODO:
-* Finish uninstall script
 * youtube-dl update script and cron configuration
 * Raspian update script and cron configuration
 * Analytics build of reporting for billing/review purposes.
