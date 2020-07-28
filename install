@@ -7,6 +7,9 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+# Make a .tar file of the home folder before install
+tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
+
 # go to root directory
 cd /
 
