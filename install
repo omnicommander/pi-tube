@@ -13,16 +13,6 @@ tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
 # go to root directory
 cd /
 
-# self-update
-echo
-echo -n "Can I please run my self-update? (Y/n) "
-read yn; echo
-case $yn in
-    [Yy]* ) apt update && apt dist-upgrade -y;;
-    [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n";;
-    * ) apt update && apt dist-upgrade -y;;
-esac
-
 echo
 
 # test for jq
