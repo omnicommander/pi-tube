@@ -23,6 +23,10 @@ mv /etc/lightdm/original_lightdm.conf /etc/lightdm/lightdm.conf
 printf "Restoring home folder...\n"
 tar -xvf /home/pi/OC-DigitalSignage/home.tar
 
+# Remove lxpanel to reset it to default
+# TODO: check if there is another way to do this
+rm -rf /home/pi/.config/lxpanel
+
 printf "You're all set!\n"
 echo -n "Would you like to remove the OC-DigitalSignage folder? (y/N) "
 read yn; echo
