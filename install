@@ -153,6 +153,9 @@ fi
 # Allow executing the setup script
 chmod +x /home/pi/setup
 
+# Enable ssh
+systemctl enable ssh
+
 # exit out
 printf "\nWell done, young Commander!\n"
 printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
