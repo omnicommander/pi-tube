@@ -82,7 +82,7 @@ printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> 
 # turn off screen blanking and cursor
 if [ ! -e "/etc/lightdm/original-lightdm.conf" ]; then
     echo "Installing custom lightdm.conf..."
-    mv /etc/lightdm/lightdm.conf /etc/lightdm/original-lightdm.conf
+    mv /etc/lightdm/lightdm.conf /etc/lightdm/original_lightdm.conf
 
     touch /etc/lightdm/lightdm.conf
 
