@@ -153,7 +153,7 @@ fi
 if [ ! -e "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]; then
     echo "Changing background..."
     sudo -i -u pi bash << EOF
-        mkdir /home/pi/.config/{pcmanfm/LXDE-pi}
+        mkdir /home/pi/.config/{pcmanfm,pcmanfm/LXDE-pi}
         touch /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
         printf "[*]\nwallpaper=/home/pi/OC-DigitalSignage/background.png\nshow-trash=0\n" >> /home/pi.config/pcmanfm/LXDE-pi/desktop-items-0.conf
 EOF
