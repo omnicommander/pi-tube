@@ -34,6 +34,7 @@ One of the most common problems when running this script is incomplete dependenc
 Run the install script again in order to install any missing software.
 
 # TODO
+* Logging for all scripts
 * Auto update
 * Uninstaller
 * Command line tools
