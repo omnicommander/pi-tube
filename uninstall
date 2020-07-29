@@ -20,11 +20,9 @@ sudo -i -u pi crontab -r
 printf "Restoring configs...\n"
 mv /etc/lightdm/original_lightdm.conf /etc/lightdm/lightdm.conf
 
+# TODO: figure out how to use this as a full restore
 printf "Restoring home folder...\n"
 tar -xvf /home/pi/OC-DigitalSignage/home.tar
-
-# Removes the config file that hides the panel
-rm /home/pi/.config/lxpanel/LXDE-pi/panels/panel
 
 printf "You're all set!\n"
 
