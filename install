@@ -25,11 +25,6 @@ case $yn in
     * ) nano /home/pi/OC-DigitalSignage/config.sh;;
 esac
 
-# Turn off screen blanking and hide mouse cursor
-# Needs to be under the [Seat:*] section to work properly
-printf "[Seat:*]\n" >> /etc/lightdm/lightdm.conf
-printf "xserver-command=X -nocursor -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
-
 # Configure cron for boot to run as pi
 # Change to pi user for the following EOF
 sudo -i -u pi bash << EOF
