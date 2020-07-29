@@ -3,20 +3,16 @@
 # Source config to access the variables
 source /home/pi/OC-DigitalSignage/config.sh
 
-
 if [ "$EUID" -ne 0 ]
   then printf "Please run install with sudo!  sudo ./install\n"
   exit
 fi
 
-
 # Go to root directory
 cd /
 
-
 # Create tar of home directory to restore during uninstall
 tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
-
 
 # Ask user to set PI_UID
 echo -n "Do you wish to set the PI_UID now? (Y/n) "
@@ -27,12 +23,10 @@ case $yn in
     * ) nano /home/pi/OC-DigitalSignage/config.sh;;
 esac
 
-
 # Turn off screen blanking and hide mouse cursor !!PERMANENT!!
 # Needs to be under the [SeatDefault] section to work properly
 printf "[Seat:*]\n" >> /etc/lightdm/lightdm.conf
 printf "xserver-command=X -nocursor -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
-
 
 # Configure cron for boot to run as pi
 # Change to pi user for the following EOF
@@ -54,7 +48,6 @@ echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
 crontab mycron
 rm mycron
 EOF
-
 
 # turn off screen blanking and cursor
 if [ ! -e "/etc/lightdm/original-lightdm.conf" ]; then
@@ -82,9 +75,7 @@ else
     echo "Custom lightdm.conf already installed"
 fi
 
-
 cd $PROJECTPATH
-
 
 # Install python dependencies
 printf "Installing python dependencies..."
@@ -111,7 +102,6 @@ touch fetch.log
 EOF
 fi
 
-
 # Install the setup script in the home folder
 if [ ! -e "/home/pi/setup" ]; then
 cat > /home/pi/setup << EOL
@@ -137,7 +127,6 @@ exit 0;
 EOL
 fi
 
-
 # Hide the top panel
 if [ ! -e "/home/pi/.config/lxpanel/LXDE-pi/panels/panel" ]; then
 touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
@@ -148,7 +137,6 @@ Global {
 }
 EOL
 fi
-
 
 # Use background.png as wallpaper and hide trash
 if [ ! -e "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]; then
@@ -161,14 +149,11 @@ show-trash=0
 EOL
 fi
 
-
 # Allow executing the setup script
 chmod +x /home/pi/setup
 
-
 # Enable ssh
 systemctl enable ssh
-
 
 # exit out
 printf "\nWell done, young Commander!\n"
