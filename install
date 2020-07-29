@@ -84,6 +84,8 @@ fi
 
 cd $PROJECTPATH
 
+# Install python dependencies
+printf "Installing python dependencies..."
 
 # Required to run as pi, will fail miserably otherwise
 if [ ! -e "/home/pi/OC-DigitalSignage/venv" ]; then
