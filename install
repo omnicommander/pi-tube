@@ -86,7 +86,7 @@ cd $PROJECTPATH
 
 
 # Required to run as pi, will fail miserably otherwise
-if [ ! -e "/home/pi/OC-DigitalSignage/venv" ]
+if [ ! -e "/home/pi/OC-DigitalSignage/venv" ]; then
 sudo -i -u pi bash << EOF
 # cd to project
 cd /home/pi/OC-DigitalSignage
