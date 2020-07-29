@@ -33,5 +33,7 @@ It will prompt you to enter your WiFi name and password.
 One of the most common problems when running this script is incomplete dependencies.
 Run the install script again in order to install any missing software.
 
-# Future Features
+# TODO
 * Auto update
+* Uninstaller
+* Command line tools
