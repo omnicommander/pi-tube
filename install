@@ -42,12 +42,6 @@ command -v bc >/dev/null 2&1 || {
 printf "*** Dependencies succesfully installed. Now installing configuration files ***\n";
 
 echo
-printf "Installing desktop configuration files...\n"
-tar -xvf /home/pi/OC-DigitalSignage/config.tar
-echo
-# printf "Installing Raspian boot configuration files...\n"
-# tar -xvf /home/pi/OC-DigitalSignage/booter.tar
-# echo
 
 # Ask user to set PI_UID
 echo -n "Do you wish to set the PI_UID now? (Y/n) "
