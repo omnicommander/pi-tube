@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # Lets grab some config data
 source /home/pi/OC-DigitalSignage/config.sh
 

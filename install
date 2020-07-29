@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# =================================
-# sudo ./install
-# =================================
 
 # Source config to access the variables
 source /home/pi/OC-DigitalSignage/config.sh
@@ -14,27 +11,13 @@ fi
 # Go to root directory
 cd /
 
-# Self-update
-echo
-read -p "Can I please run my self-update? (Y/n) " yn
-case $yn in
-    [Yy]* ) apt update && apt dist-upgrade -y;;
-    [Nn]* ) printf "\nHey! I may not run correctly, so you had your chance and you blew it.\n";;
-    * ) apt update && apt dist-upgrade -y;;
-esac
-
 echo
 
 echo
-printf "Installing desktop configuration files...\n"
-tar -xvf /home/pi/OC-DigitalSignage/config.tar
-echo
-printf "Installing Raspian boot configuration files...\n"
-tar -xvf /home/pi/OC-DigitalSignage/booter.tar
-echo
 
-# Ask to set PI_ID
-read -p "Do you wish to set the PI_ID now? (Y/n) " yn
+# Ask user to set PI_UID
+echo -n "Do you wish to set the PI_UID now? (Y/n) "
+read yn; echo
 case $yn in
     [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh;;
     [Nn]* ) printf "You can always edit the config.sh anytime.\n";;
@@ -95,33 +78,115 @@ exit 0;
 EOL
 fi
 
+# turn off screen blanking and cursor
+if [ ! -e "/etc/lightdm/original-lightdm.conf" ]; then
+    echo "Installing custom lightdm.conf..."
+    mv /etc/lightdm/lightdm.conf /etc/lightdm/original_lightdm.conf
+
+    touch /etc/lightdm/lightdm.conf
+
+    # EOL indentation is sensitive, so leave it be
+    cat > /etc/lightdm/lightdm.conf << EOL
+# OC-DigitalSignage version of lightdm.conf
+# Original config stored in /etc/lightdm/original_lightdm.conf
+
+[Seat:*]
+# Defaults
+greeter-session=pi-greeter
+greeter-hide-users=false
+display-setup-script=/usr/share/dispsetup.sh
+autologin-user=pi
+
+# Turns off screen blanking and cursor
+xserver-command=X -nocursor -s 0 dpms
+EOL
+
+else
+    echo "Custom lightdm.conf already installed"
+fi
+
 cd $PROJECTPATH
 
 # Required to run as pi, will fail miserably otherwise
 if [ ! -e "/home/pi/OC-DigitalSignage/venv" ]
 sudo -i -u pi bash << EOF
-# cd to project
-cd /home/pi/OC-DigitalSignage
+# export current crontab to mycron
+crontab -l > mycron_old
 
-# Create venv and activate it
-python3 -m venv venv
-source venv/bin/activate
+# write new mycron --
+# Fetch on boot timestamp to last_cron
+echo "@reboot /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
 
-# Install all required modules
-python3 -m pip install -r requirements.txt
+# Every 6hrs fetch and timestamp to last_cron
+echo "* */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
 
-# Makes the 'videos' directory
-# Throws an error if it is not there
-mkdir videos
+# Every 15min push heartbeat and timestamp to last_cron
+echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
 
-# Create fetch.log
-touch fetch.log
+# Every morning at 4am reboot
+echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
+
+# install new cron file
+crontab mycron
+rm mycron
 EOF
+
+# Install the setup script in the home folder
+if [ ! -e "/home/pi/setup" ]; then
+cat > /home/pi/setup << EOL
+#!/usr/bin/env bash
+
+if [ "$EUID" -ne 0 ]
+    then printf "Please run setup with sudo!  sudo ./setup\n"
+    exit
 fi
 
-# Enable ssh, since it is not enabled by default
+echo -n "Enter WiFi name: "
+read SSID; echo
+
+echo -n "Enter WiFi password: "
+read -s PASS; echo
+
+printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
+printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+printf "network={\nssid=\"\${SSID}\"\npsk=\"\${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+
+exit 0;
+EOL
+fi
+
+# Hide the top panel
+if [ ! -e "/home/pi/.config/lxpanel/LXDE-pi/panels/panel" ]; then
+touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
+cat < /home/pi/.config/lxpanel/LXDE-pi/panels/panel << EOL
+Global {
+    autohide=1
+    heightwhenhidden=0
+}
+EOL
+fi
+
+# Use background.png as wallpaper and hide trash
+if [ ! -e "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]; then
+mkdir /home/pi/.config/{pcmanfm/LXDE-pi}
+touch /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+cat < /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf << EOL
+[*]
+wallpaper=/home/pi/OC-DigitalSignage/background.png
+show-trash=0
+EOL
+fi
+
+# Allow executing the setup script
+chmod +x /home/pi/setup
+
+# Enable ssh
 systemctl enable ssh
 
-printf "Installation is now complete. Please reboot to begin use.\n"
+# exit out
+printf "\nWell done, young Commander!\n"
+printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
+printf "I will begin playing the videos in a loop once the download completes.\n"
 
-exit 0
+exit 0;
