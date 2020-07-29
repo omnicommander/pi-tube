@@ -129,24 +129,19 @@ fi
 
 # Hide the top panel
 if [ ! -e "/home/pi/.config/lxpanel/LXDE-pi/panels/panel" ]; then
-touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
-cat < /home/pi/.config/lxpanel/LXDE-pi/panels/panel << EOL
-Global {
-    autohide=1
-    heightwhenhidden=0
-}
-EOL
+    sudo -i -u pi bash << EOF
+        touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
+        printf "Global {\n    autohide=1\n    heightwhenhidden=0\n}" >> /home/pi/.config/lxpanel/LXDE-pi/panels/panel
+EOF
 fi
 
 # Use background.png as wallpaper and hide trash
 if [ ! -e "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]; then
-mkdir /home/pi/.config/{pcmanfm/LXDE-pi}
-touch /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
-cat < /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf << EOL
-[*]
-wallpaper=/home/pi/OC-DigitalSignage/background.png
-show-trash=0
-EOL
+    sudo -i -u pi bash << EOF
+        mkdir /home/pi/.config/{pcmanfm/LXDE-pi}
+        touch /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+        printf "[*]\nwallpaper=/home/pi/OC-DigitalSignage/background.png\nshow-trash=0\n" >> /home/pi.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+EOF
 fi
 
 # Allow executing the setup script
