@@ -81,6 +81,7 @@ fi
 
 cd $PROJECTPATH
 
+
 # Install python dependencies
 printf "Installing python dependencies..."
 
