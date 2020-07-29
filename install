@@ -134,17 +134,15 @@ if [ "$EUID" -ne 0 ]
 fi
 
 echo -n "Enter WiFi name: "
-read SSID
+read SSID; echo
 
 echo -n "Enter WiFi password: "
-read -s PASS
+read -s PASS; echo
 
 printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
 printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-
-printf "Success!\n"
+printf "network={\nssid=\"\${SSID}\"\npsk=\"\${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 
 exit 0;
 EOL
