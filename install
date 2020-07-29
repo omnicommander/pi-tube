@@ -3,17 +3,16 @@
 # Source config to access the variables
 source /home/pi/OC-DigitalSignage/config.sh
 
+
 if [ "$EUID" -ne 0 ]
   then printf "Please run install with sudo!  sudo ./install\n"
   exit
 fi
 
+
 # Go to root directory
 cd /
 
-echo
-
-echo
 
 # Ask user to set PI_UID
 echo -n "Do you wish to set the PI_UID now? (Y/n) "
@@ -24,10 +23,12 @@ case $yn in
     * ) nano /home/pi/OC-DigitalSignage/config.sh;;
 esac
 
+
 # Turn off screen blanking and hide mouse cursor !!PERMANENT!!
 # Needs to be under the [SeatDefault] section to work properly
 printf "[Seat:*]\n" >> /etc/lightdm/lightdm.conf
 printf "xserver-command=X -nocursor -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
+
 
 # Configure cron for boot to run as pi
 # Change to pi user for the following EOF
@@ -53,30 +54,6 @@ crontab mycron
 rm mycron
 EOF
 
-# Install the setup script in the home folder
-if [ ! -e "/home/pi/setup" ]; then
-cat > /home/pi/setup << EOL
-#!/usr/bin/env bash
-
-if [ "$EUID" -ne 0 ]
-    then printf "Please run setup with sudo!  sudo ./setup\n"
-    exit
-fi
-
-echo -n "Enter WiFi name: "
-read SSID
-
-echo -n "Enter WiFi password: "
-read -s PASS; echo
-
-printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
-printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "network={\nssid=\"\${SSID}\"\npsk=\"\${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-
-exit 0;
-EOL
-fi
 
 # turn off screen blanking and cursor
 if [ ! -e "/etc/lightdm/original-lightdm.conf" ]; then
@@ -100,36 +77,36 @@ autologin-user=pi
 # Turns off screen blanking and cursor
 xserver-command=X -nocursor -s 0 dpms
 EOL
-
 else
     echo "Custom lightdm.conf already installed"
 fi
 
+
 cd $PROJECTPATH
+
 
 # Required to run as pi, will fail miserably otherwise
 if [ ! -e "/home/pi/OC-DigitalSignage/venv" ]
 sudo -i -u pi bash << EOF
-# export current crontab to mycron
-crontab -l > mycron_old
+# cd to project
+cd /home/pi/OC-DigitalSignage
 
-# write new mycron --
-# Fetch on boot timestamp to last_cron
-echo "@reboot /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
+# Create venv and activate it
+python3 -m venv venv
+source venv/bin/activate
 
-# Every 6hrs fetch and timestamp to last_cron
-echo "* */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+# Install all required modules
+python3 -m pip install -r requirements.txt
 
-# Every 15min push heartbeat and timestamp to last_cron
-echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+# Makes the 'videos' directory
+# Throws an error if it is not there
+mkdir videos
 
-# Every morning at 4am reboot
-echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
-
-# install new cron file
-crontab mycron
-rm mycron
+# Create fetch.log
+touch fetch.log
 EOF
+fi
+
 
 # Install the setup script in the home folder
 if [ ! -e "/home/pi/setup" ]; then
@@ -156,6 +133,7 @@ exit 0;
 EOL
 fi
 
+
 # Hide the top panel
 if [ ! -e "/home/pi/.config/lxpanel/LXDE-pi/panels/panel" ]; then
 touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
@@ -166,6 +144,7 @@ Global {
 }
 EOL
 fi
+
 
 # Use background.png as wallpaper and hide trash
 if [ ! -e "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]; then
@@ -178,11 +157,14 @@ show-trash=0
 EOL
 fi
 
+
 # Allow executing the setup script
 chmod +x /home/pi/setup
 
+
 # Enable ssh
 systemctl enable ssh
+
 
 # exit out
 printf "\nWell done, young Commander!\n"
