@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# =================================
-# sudo ./install
-# =================================
+
 if [ "$EUID" -ne 0 ]
   then printf "Please run install with sudo!  sudo ./install\n"
   exit
@@ -143,6 +141,7 @@ EOL
 fi
 
 # Hide the top panel
+if [ ! -e "/home/pi/.config/lxpanel/LXDE-pi/panels/panel" ]; then
 touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
 cat < /home/pi/.config/lxpanel/LXDE-pi/panels/panel << EOL
 Global {
@@ -150,6 +149,18 @@ Global {
     heightwhenhidden=0
 }
 EOL
+fi
+
+# Use background.png as wallpaper and hide trash
+if [ ! -e "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]; then
+mkdir /home/pi/.config/{pcmanfm/LXDE-pi}
+touch /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+cat < /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf << EOL
+[*]
+wallpaper=/home/pi/OC-DigitalSignage/background.png
+show-trash=0
+EOL
+fi
 
 # Allow executing the setup script
 chmod +x /home/pi/setup
