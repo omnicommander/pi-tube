@@ -12,7 +12,9 @@ fi
 cd /
 
 # Create tar of home directory to restore during uninstall
-tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
+if [ ! -e "/home/pi/OC-DigitalSignage/home.tar" ]
+    then tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
+fi
 
 # Ask user to set PI_UID
 echo -n "Do you wish to set the PI_UID now? (Y/n) "
@@ -23,8 +25,8 @@ case $yn in
     * ) nano /home/pi/OC-DigitalSignage/config.sh;;
 esac
 
-# Turn off screen blanking and hide mouse cursor !!PERMANENT!!
-# Needs to be under the [SeatDefault] section to work properly
+# Turn off screen blanking and hide mouse cursor
+# Needs to be under the [Seat:*] section to work properly
 printf "[Seat:*]\n" >> /etc/lightdm/lightdm.conf
 printf "xserver-command=X -nocursor -s 0 -dpms\n" >> /etc/lightdm/lightdm.conf
 
