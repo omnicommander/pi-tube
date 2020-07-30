@@ -18,11 +18,20 @@ esac
 printf "Removing crontab...\n"
 sudo -i -u pi crontab -r
 
-# Replace lightdm.conf with original_lightdm.conf
-printf "Restoring configs...\n"
-if [ -e "/etc/lightdm/original_lightdm" ]; then
-mv /etc/lightdm/original_lightdm.conf /etc/lightdm/lightdm.conf
-fi
+# Restore lightdm.conf
+echo "Installing custom lightdm.conf..."
+
+cat > /etc/lightdm/lightdm.conf << EOL
+# OC-DigitalSignage version of lightdm.conf
+# Original config stored in /etc/lightdm/original_lightdm.conf
+
+[Seat:*]
+# Defaults
+greeter-session=pi-greeter
+greeter-hide-users=false
+display-setup-script=/usr/share/dispsetup.sh
+autologin-user=pi
+EOL
 
 # # TODO: figure out how to use this as a full restore
 # printf "Restoring home folder...\n"
