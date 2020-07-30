@@ -21,6 +21,7 @@ FULLURL = f'{BUCKETURL}/{PI_ID}'
 def fetch():
     """Downloads videos from AWS S3, given a list of videos
     """
+
     # Print separator for log
     print('* -------------------------------------------------------- *')
 
@@ -76,6 +77,7 @@ def download_file(file_path, file_name):
     file_name : string
         the name of the file to be downloaded
     """
+
     response = requests.get(f'{FULLURL}/{file_name}')
 
     # Write file in chunks of 128 bytes
