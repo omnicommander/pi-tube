@@ -22,7 +22,7 @@ mv /etc/lightdm/original_lightdm.conf /etc/lightdm/lightdm.conf
 
 # TODO: figure out how to use this as a full restore
 printf "Restoring home folder...\n"
-tar -xvf /home/pi/OC-DigitalSignage/home.tar
+tar --delete -xf /home/pi/OC-DigitalSignage/home.tar
 
 printf "OC-DigitalSignage successfully uninstalled!\n"
 
