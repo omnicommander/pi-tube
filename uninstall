@@ -37,6 +37,11 @@ if [ -e "/home/pi/.config/lxpanel" ]; then
 rm -rf /home/pi/.config/lxpanel
 fi
 
+# Remove the setup script
+if [ -e "/home/pi/setup" ]; then
+    rm /home/pi/setup
+fi
+
 printf "OC-DigitalSignage successfully uninstalled!\n"
 
 # Delete the project, if the user wants to do so
