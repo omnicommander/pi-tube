@@ -24,9 +24,9 @@ if [ -e "/etc/lightdm/original_lightdm" ]; then
 mv /etc/lightdm/original_lightdm.conf /etc/lightdm/lightdm.conf
 fi
 
-# TODO: figure out how to use this as a full restore
-printf "Restoring home folder...\n"
-tar -xf /home/pi/OC-DigitalSignage/home.tar
+# # TODO: figure out how to use this as a full restore
+# printf "Restoring home folder...\n"
+# tar -xf /home/pi/OC-DigitalSignage/home.tar
 
 # For now though, just rm -rf pcmanfm and lxpanel
 if [ -e "/home/pi/.config/pcmanfm" ]; then
