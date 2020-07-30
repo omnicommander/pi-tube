@@ -12,13 +12,13 @@ fi
 echo "Changing to root directory"
 cd /
 
-# Create tar of home directory to restore during uninstall
-if [ ! -e "/home/pi/OC-DigitalSignage/home.tar" ]; then
-    echo "Storing home directory..."
-    tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
-else
-    echo "home.tar already exists"
-fi
+# # Create tar of home directory to restore during uninstall
+# if [ ! -e "/home/pi/OC-DigitalSignage/home.tar" ]; then
+#     echo "Storing home directory..."
+#     tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
+# else
+#     echo "home.tar already exists"
+# fi
 
 # Ask user to set PI_UID
 echo -n "Do you wish to set the PI_UID now? (Y/n) "
