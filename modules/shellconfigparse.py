@@ -10,12 +10,17 @@
 def parse(file):
     """Parses shell config file for value
 
-    Args:
-        file (string): the config file to parse
+    Arguments
+    ---------
+    file : string
+        the config file to parse
 
-    Returns:
-        dict: a dict of key/value pairs from config
+    Returns
+    -------
+    dict
+        a dict of key/value pairs from the config file
     """
+
     with open(file, 'r') as f:
         lines = []
         data = {}
@@ -31,14 +36,19 @@ def parse(file):
 
 
 def delete_comments(string):
-    """Deletes # comments
+    """Deletes comments from a shell file
 
-    Args:
-        string (string): the string you want to delete comments from
+    Arguments
+    ---------
+    string : string
+        the string you want to delete comments from
 
-    Returns:
-        string: the string without comments
+    Returns
+    -------
+    string
+        the string without comments
     """
+
     return string.partition('#')[0]
 
 

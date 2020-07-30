@@ -68,9 +68,13 @@ def fetch():
 def download_file(file_path, file_name):
     """Downloads a file from the download link
 
-    Args:
-        file_path (string): path for the downloaded file
-        file_name (string): the name of the file to be downloaded
+    Arguments
+    ---------
+    file_path : string
+        path for the downloaded file
+
+    file_name : string
+        the name of the file to be downloaded
     """
     response = requests.get(f'{FULLURL}/{file_name}')
 
