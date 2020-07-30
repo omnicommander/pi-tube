@@ -142,8 +142,7 @@ fi
 if [ ! -e "/home/pi/.config/lxpanel/LXDE-pi/panels/panel" ]; then
     echo "Hiding top panel..."
     sudo -i -u pi bash << EOF
-        touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
-        printf "Global {\n    autohide=1\n    heightwhenhidden=0\n}\n" >> /home/pi/.config/lxpanel/LXDE-pi/panels/panel
+        printf "Global {\n    autohide=1\n    heightwhenhidden=0\n}\n" > /home/pi/.config/lxpanel/LXDE-pi/panels/panel
 EOF
 else
     echo "lxpanel config already installed"
