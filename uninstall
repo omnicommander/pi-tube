@@ -14,23 +14,32 @@ case $yn in
     * ) exit;;
 esac
 
+# Delete crontab
 printf "Removing crontab...\n"
 sudo -i -u pi crontab -r
 
+# Replace lightdm.conf with original_lightdm.conf
 printf "Restoring configs...\n"
+if [ -e "/etc/lightdm/original_lightdm" ]; then
 mv /etc/lightdm/original_lightdm.conf /etc/lightdm/lightdm.conf
+fi
 
 # TODO: figure out how to use this as a full restore
 printf "Restoring home folder...\n"
 tar -xf /home/pi/OC-DigitalSignage/home.tar
 
 # For now though, just rm -rf pcmanfm and lxpanel
+if [ -e "/home/pi/.config/pcmanfm" ]; then
 rm -rf /home/pi/.config/pcmanfm
+fi
+
+if [ -e "/home/pi/.config/lxpanel" ]; then
 rm -rf /home/pi/.config/lxpanel
+fi
 
 printf "OC-DigitalSignage successfully uninstalled!\n"
 
-# Delete the project
+# Delete the project, if the user wants to do so
 echo -n "Would you like to remove the OC-DigitalSignage folder? (y/N) "
 read yn; echo
 case $yn in
