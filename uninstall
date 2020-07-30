@@ -24,8 +24,8 @@ mv /etc/lightdm/original_lightdm.conf /etc/lightdm/lightdm.conf
 printf "Restoring home folder...\n"
 tar -xf /home/pi/OC-DigitalSignage/home.tar
 
-# For now though, just rm -rf pcmanf and lxpanel
-rm -rf /home/pi/.config/pcmanf
+# For now though, just rm -rf pcmanfm and lxpanel
+rm -rf /home/pi/.config/pcmanfm
 rm -rf /home/pi/.config/lxpanel
 
 printf "OC-DigitalSignage successfully uninstalled!\n"
