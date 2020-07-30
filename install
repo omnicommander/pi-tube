@@ -51,15 +51,10 @@ crontab mycron
 rm mycron
 EOF
 
-# turn off screen blanking and cursor
-if [ ! -e "/etc/lightdm/original-lightdm.conf" ]; then
-    echo "Installing custom lightdm.conf..."
-    mv /etc/lightdm/lightdm.conf /etc/lightdm/original_lightdm.conf
+# Turn off screen blanking and cursor
+echo "Installing custom lightdm.conf..."
 
-    touch /etc/lightdm/lightdm.conf
-
-    # EOL indentation is sensitive, so leave it be
-    cat > /etc/lightdm/lightdm.conf << EOL
+cat > /etc/lightdm/lightdm.conf << EOL
 # OC-DigitalSignage version of lightdm.conf
 # Original config stored in /etc/lightdm/original_lightdm.conf
 
@@ -73,9 +68,6 @@ autologin-user=pi
 # Turns off screen blanking and cursor
 xserver-command=X -nocursor -s 0 dpms
 EOL
-else
-    echo "Custom lightdm.conf already installed"
-fi
 
 cd $PROJECTPATH
 
