@@ -21,16 +21,16 @@ def parse(file):
         data = {}
         for line in f:
             if 'TIMESTAMP' in line:
-                lines.append(deleteComments(line).rstrip())
+                lines.append(delete_comments(line).rstrip())
             else:
-                lines.append(deleteComments(line).rstrip().replace('"', ''))
+                lines.append(delete_comments(line).rstrip().replace('"', ''))
 
         data = dict(s.split('=',1) for s in lines)
 
         return data
 
 
-def deleteComments(string):
+def delete_comments(string):
     """Deletes # comments
 
     Args:
