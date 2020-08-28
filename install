@@ -49,20 +49,11 @@ command -v bc >/dev/null 2&1 || {
 printf "*** Dependencies succesfully installed. Now installing configuration files ***\n";
 
 echo
-printf "Installing desktop configuration files...\n"
-tar -xvf /home/pi/OC-DigitalSignage/config.tar
-echo
 printf "Installing Raspian boot configuration files...\n"
 tar -xvf /home/pi/OC-DigitalSignage/booter.tar
 echo
 
-# ****** NO LONGER REQUIRED TO RUN AS ROOT ************
-# printf "\n --- giving VLC access to run as sudo ---\n"
-# sed -i 's/geteuid/getppid/' /usr/bin/vlc
-# *****************************************************
-
 # Begin user configuration session
-#---------------------------------
 
 while true; do
 	read -p "Do you wish to set the PI_UID now? (y/n)" yn
