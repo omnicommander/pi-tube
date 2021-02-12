@@ -37,8 +37,8 @@ host_ip=$(hostname  -I | cut -f1 -d' ')
 ssid=$(awk -F "[{}]" '/"/ { print $1 }' /etc/wpa_supplicant/wpa_supplicant.conf)
 wifi=${ssid[@]//\"/}
 
-# is vlc running?
-SERVICE="vlc"
+# is mpv running?
+SERVICE="mpv"
 if pgrep -x "$SERVICE" > /dev/null
 then
     vlcserviceStatus="running"
@@ -88,5 +88,4 @@ object='{
 # Post our object to the server for capture.
 curl -H "Content-Type: application/json" -X POST http://34.193.150.151/dat-receive.php --data "$object"
 
-# And, get the fuck out.
 exit 0;

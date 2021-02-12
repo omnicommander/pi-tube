@@ -122,15 +122,14 @@ done
 /home/pi/OC-DigitalSignage/push
 
 
-# stop vlc if it's running or frozen
-echo "$TIMESTAMP pkill -9 vlc" >> $fetchLog
+# stop mpv if it's running or frozen
+echo "$TIMESTAMP pkill -9 mpv" >> $fetchLog
 
-pkill -9 vlc
+pkill -9 mpv
 
 # Run the looper script
-echo "$TIMESTAMP Start vlc" >> $fetchLog
+echo "$TIMESTAMP Start mpv" >> $fetchLog
 
-# Fire the weapon
 /home/pi/OC-DigitalSignage/looper &
 
 echo "$TIMESTAMP Bye" >> $fetchLog
