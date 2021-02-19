@@ -118,10 +118,6 @@ for d in "${Array3[@]}"; do
     find "${VIDEOPATH}/" -name "*${d}*" -type f -exec rm {} +
 done
 
-# push our status
-/home/pi/OC-DigitalSignage/push
-
-
 # stop vlc if it's running or frozen
 echo "$TIMESTAMP pkill -9 vlc" >> $fetchLog
 
