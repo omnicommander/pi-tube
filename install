@@ -90,7 +90,7 @@ sudo -i -u pi bash << EOF
 
     # write new mycron --
     # Every 6hrs fetch and timestamp to last_cron
-    echo "* */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+    echo "1 */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
 
     # Every 15min push heartbeat and timestamp to last_cron
     echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
