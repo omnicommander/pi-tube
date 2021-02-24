@@ -11,15 +11,15 @@ fi
 cd /
 
 # self-update
-echo
-while true; do
-	read -p "Can I please run my self-update? (y/n)" yn
-    case $yn in
-        [Yy]* ) apt update && apt dist-upgrade -y; break;;
-        [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
-        * ) printf "Please answer y or n or I will ask you again, and you don't want me wasting your time.\n.";;
-    esac
-done
+#echo
+#while true; do
+#	read -p "Can I please run my self-update? (y/n)" yn
+#    case $yn in
+#        [Yy]* ) apt update && apt dist-upgrade -y; break;;
+#        [Nn]* ) printf "\n Hey! I may not run correctly, so you had your chance and you blew it.\n"; break;;
+#        * ) printf "Please answer y or n or I will ask you again, and you don't want me wasting your time.\n.";;
+#    esac
+#done
 
 echo
 
@@ -48,10 +48,10 @@ command -v bc >/dev/null 2&1 || {
 
 printf "*** Dependencies succesfully installed. Now installing configuration files ***\n";
 
-echo
-printf "Installing Raspian boot configuration files...\n"
-tar -xvf /home/pi/OC-DigitalSignage/booter.tar
-echo
+#echo
+#printf "Installing Raspian boot configuration files...\n"
+#tar -xvf /home/pi/OC-DigitalSignage/booter.tar
+#echo
 
 # Begin user configuration session
 
@@ -65,15 +65,15 @@ while true; do
 done
 
 # Configure WIFI SSID and Password (sudo)
-printf
-read -p "Enter WIFI SSID: " SSID
-read -p "Enter WIFI PASSWORD: " PASSWORD
+#printf
+#read -p "Enter WIFI SSID: " SSID
+#read -p "Enter WIFI PASSWORD: " PASSWORD
 
 # overwrite existing wpa configuration file
-printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
-printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+#printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
+#printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+#printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
+#printf "network={\nssid=\"${SSID}\"\npsk=\"${PASSWORD}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
 
 
 # turn off screen blanking
