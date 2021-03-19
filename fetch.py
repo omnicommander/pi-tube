@@ -33,25 +33,26 @@ try:
     response = requests.get(f'{server_url}{pi_id}')
     data = response.json()
 except:
-    log.error(f'Request failed, status {response.status}')
+    log.error('Request failed, status {}'.format(response.status))
     log.info('Exiting')
     exit()
 
 # Determine which videos are already downloaded
 videos_to_download = []
 for video in data:
-    if not os.path.exists(os.path.join(video_directory, video['video_title'] + '.mp4')):
+    if not os.path.exists(os.path.join(video_directory, '{}.mp4'.format(video['video_title']))):
         videos_to_download.append(video)
     else:
-        log.info(video['video_title'] + '.mp4 is already downloaded')
+        log.info('{}.mp4 is already downloaded'.format(video['video_title']))
 
 # Download every video in list
 for video in videos_to_download:
     # Connect to youtube
     try:
-        yt = YouTube('https://youtube.com/watch?v=' + video['youtube_id'])
+        yt = YouTube('https://youtube.com/watch?v={}'.format(video['youtube_id']))
     except:
-        log.error('Failed to connect to https://youtube.com/watch?v=' + video['youtube_id'])
+        log.error('Failed to connect to \
+                  https://youtube.com/watch?v={}'.format(video['youtube_id']))
         exit()
 
 
@@ -67,16 +68,21 @@ for video in videos_to_download:
                             filename=video['video_title'])
         else:
             raise
-        log.info('Downloading ' + video['video_title'] + '.mp4')
+        log.info('Downloading {}.mp4'.format(video['video_title']))
     except:
-        log.error('Failed to download https://youtube.com/watch?v=' + video['youtube_id'] + ', ' +
-                video['video_title'])
+        log.error('Failed to download https://youtube.com/watch?v={},\
+                  {}').format(video['youtube_id'], video['video_title'])
 
 # Delete videos 
 for video in os.listdir(video_directory):
     if video not in [x['video_title'] + '.mp4' for x in data]:
         os.remove(os.path.join(video_directory, video))
-        log.info('Removed ' + video)
+        log.info(f'Removed {video}')
+
+# Log inventory of videos
+video_id_inventory = [x['youtube_id'] for x in data]
+log.info('Current video ids: {}'.format(', '.join(video_id_inventory)))
+
 
 # Run the looper
 log.info('Running mpv')
