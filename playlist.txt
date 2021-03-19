@@ -1,0 +1,2 @@
+/home/pi/OC-DigitalSignage/video/YOTB.mp4
+/home/pi/OC-DigitalSignage/video/YOTHB.mp4

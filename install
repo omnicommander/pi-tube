@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
-
+# =================================
+# sudo ./install
+# =================================
 if [ "$EUID" -ne 0 ]
-  then printf "Please run install with sudo!  sudo ./install\n"
+  then printf "Please run install with sudo!  sudo ./install "
   exit
 fi
 
-# Make a .tar file of the home folder before install
-tar -cf /home/pi/OC-DigitalSignage/home.tar /home/pi
-
 # go to root directory
 cd /
-
-echo
 
 # test for jq
 command -v jq >/dev/null 2>&1 || {
@@ -19,13 +16,12 @@ command -v jq >/dev/null 2>&1 || {
     # install jq for the json
     apt-get install jq -y
 }
-
 # test for youtube-dl
 command -v youtube-dl >/dev/null 2>&1 || {
     printf >&2 "I require youtube-dl but it's not installed, so I am installing it now.\n";
 
     # install youtube-dl
-    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+    apt install youtube-dl
 
     # make it executable so we can run it
     chmod a+rx /usr/local/bin/youtube-dl
@@ -37,140 +33,9 @@ command -v bc >/dev/null 2&1 || {
     apt-get install bc -y
 }
 
-printf "*** Dependencies succesfully installed. Now installing configuration files ***\n";
-
-echo
-
-# Ask user to set PI_UID
-echo -n "Do you wish to set the PI_UID now? (Y/n) "
-read yn; echo
-case $yn in
-    [Yy]* ) nano /home/pi/OC-DigitalSignage/config.sh;;
-    [Nn]* ) printf "You can always edit the config.sh anytime.\nBye for now!\n";;
-    * ) nano /home/pi/OC-DigitalSignage/config.sh;;
-esac
-
-# Configure WIFI SSID and Password (sudo)
-printf
-echo -n "Enter WiFi name: "
-read SSID
-echo -n "Enter WiFi password: "
-read -s PASS
-echo
-
-# overwrite existing wpa configuration file
-printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
-printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "network={\nssid=\"${SSID}\"\npsk=\"${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-
-# turn off screen blanking and cursor
-if [ ! -e "/etc/lightdm/original-lightdm.conf" ]; then
-    echo "Installing custom lightdm.conf..."
-    mv /etc/lightdm/lightdm.conf /etc/lightdm/original_lightdm.conf
-
-    touch /etc/lightdm/lightdm.conf
-
-    # EOL indentation is sensitive, so leave it be
-    cat > /etc/lightdm/lightdm.conf << EOL
-# OC-DigitalSignage version of lightdm.conf
-# Original config stored in /etc/lightdm/original_lightdm.conf
-
-[Seat:*]
-# Defaults
-greeter-session=pi-greeter
-greeter-hide-users=false
-display-setup-script=/usr/share/dispsetup.sh
-autologin-user=pi
-
-# Turns off screen blanking and cursor
-xserver-command=X -nocursor -s 0 dpms
-EOL
-
-else
-    echo "Custom lightdm.conf already installed"
-fi
-
-# configure cron for boot to run as pi
-# change to pi user for the following EOF
-sudo -i -u pi bash << EOF
-# export current crontab to mycron
-crontab -l > mycron_old
-
-# write new mycron --
-# Fetch on boot timestamp to last_cron
-echo "@reboot /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
-
-# Every 6hrs fetch and timestamp to last_cron
-echo "* */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
-
-# Every 15min push heartbeat and timestamp to last_cron
-echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
-
-# Every morning at 4am reboot
-echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
-
-# install new cron file
-crontab mycron
-rm mycron
-EOF
-
-# Install the setup script in the home folder
-if [ ! -e "/home/pi/setup" ]; then
-cat > /home/pi/setup << EOL
-#!/usr/bin/env bash
-
-if [ "$EUID" -ne 0 ]
-    then printf "Please run setup with sudo!  sudo ./setup\n"
-    exit
-fi
-
-echo -n "Enter WiFi name: "
-read SSID; echo
-
-echo -n "Enter WiFi password: "
-read -s PASS; echo
-
-printf "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n" > /etc/wpa_supplicant/wpa_supplicant.conf
-printf "update_config=1\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "country=\"US\"\n\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-printf "network={\nssid=\"\${SSID}\"\npsk=\"\${PASS}\"\nkey_mgmt=WPA-PSK\n}\n" >> /etc/wpa_supplicant/wpa_supplicant.conf
-
-exit 0;
-EOL
-fi
-
-# Hide the top panel
-if [ ! -e "/home/pi/.config/lxpanel/LXDE-pi/panels/panel" ]; then
-touch /home/pi/.config/lxpanel/LXDE-pi/panels/panel
-cat < /home/pi/.config/lxpanel/LXDE-pi/panels/panel << EOL
-Global {
-    autohide=1
-    heightwhenhidden=0
-}
-EOL
-fi
-
-# Use background.png as wallpaper and hide trash
-if [ ! -e "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]; then
-mkdir /home/pi/.config/{pcmanfm/LXDE-pi}
-touch /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
-cat < /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf << EOL
-[*]
-wallpaper=/home/pi/OC-DigitalSignage/background.png
-show-trash=0
-EOL
-fi
-
-# Allow executing the setup script
-chmod +x /home/pi/setup
-
-# Enable ssh
-systemctl enable ssh
-
 # exit out
 printf "\nWell done, young Commander!\n"
 printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
-printf "I will begin playing the videos in a loop once the download completes.\n"
+printf "I will begin playing the videos in a loop once he download completes."
 
 exit 0;

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Lets grab some config data
 source /home/pi/OC-DigitalSignage/config.sh
 
@@ -34,17 +33,17 @@ jsonInv=( $(jq -r '.[].youtube_id' $JSONPATH/file.json ) )
 # Capture our IP address
 host_ip=$(hostname  -I | cut -f1 -d' ')
 
-# Can we grab Wifi? If it's configured then we should get it from the conf
+# Can we grab Wifi shit? If it's configured then we should get it from the conf
 ssid=$(awk -F "[{}]" '/"/ { print $1 }' /etc/wpa_supplicant/wpa_supplicant.conf)
 wifi=${ssid[@]//\"/}
 
-# is vlc running?
-SERVICE="vlc"
+# is mpv running?
+SERVICE="mpv"
 if pgrep -x "$SERVICE" > /dev/null
 then
-    vlcserviceStatus="running"
+    mpvserviceStatus="running"
     else
-    vlcserviceStatus="stopped"
+    mpvserviceStatus="stopped"
  fi
 
 # Uptime since
@@ -82,7 +81,7 @@ object='{
             {
                 "uptime_since" : "'"$uptime"'",
                 "last_cron" : "'"$last_cron"'",
-                "vlc" : "'"$vlcserviceStatus"'"
+                "vlc" : "'"$mpvserviceStatus"'"
             }
         }'
 

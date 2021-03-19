@@ -1,31 +1,10 @@
-#!/usr/bin/env bash
-# OmniTube v1.0 -- OMNICOMMANDER
-# bradshaw@omnicommander.com
-# ================================================================
-source /home/pi/OC-DigitalSignage/config.sh
+#!/usr/bin/python3
+import os
 
- # VLC option parameters
- # ================================================================
-        # -Z : Look in the $VIDEOPATH directory and play all files
-        # -L : Loop the list of files
-        # -f : play video full screen always
-    	# -q : quiet - disable errors, warnings etc.
-	    # -d : run as daemon service
-        # --no-video-title-show : Do not display the video title
-        # --no-random : Play in the order they are listed in the directory
-	    # --no-audio : Do not play audio option
-        # --file-logging : record logs on
-        # --logfile=vlc-log.txt : location of logfile
-        # =================================================================
-        # sub-source parameters:
-        # position: {0 (Center), 1 (Left), 2 (Right), 4 (Top), 8 (Bottom), 5 (Top-Left), 6 (Top-Right), 9 (Bottom-Left), 10 (Bottom-Right)}
-        # x: horizontal spacing y: vertical spacing
-        # color: 0xhex-value color HTML #000000 = black, #FF0000 = red, #00FF00 = green, #FFFF00 = yellow (red + green), #FFFFFF = white
-        # opacity: 0=transparent 255=opaque (default)
-        # marquee optional date  formats %a %b %d %Y -- Sat Dec 14 2019
-        # marquee optional time formats %l:%M:%S %p 10:34:21 PM
-# ================================================================
+# Write the paths to the videos to a playlist file
+with open("/home/pi/OC-DigitalSignage/playlist.txt", "w") as playlist:
+    for video in os.listdir("/home/pi/OC-DigitalSignage/video/"):
+        playlist.write(os.path.join("/home/pi/OC-DigitalSignage/video", video) + "\n")
 
-cvlc -ZLfqd $VIDEOPATH --no-video-title-show --no-random  --avcodec-hw=none --file-caching=0
-
-exit 0;
+# Run mpv
+os.system("mpv --playlist=/home/pi/OC-DigitalSignage/playlist.txt --loop-playlist=inf -fs")
