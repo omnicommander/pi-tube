@@ -88,4 +88,3 @@ log.info('Current video ids: {}'.format(', '.join(video_id_inventory)))
 log.info('Running mpv')
 os.system('killall mpv')
 os.system('/home/pi/OC-DigitalSignage/looper')
-
