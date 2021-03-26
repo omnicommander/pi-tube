@@ -10,4 +10,11 @@
 
 4. Run the install script with `sudo /home/pi/OC-DigitalSignage/install`, case sensitive.
 
-5. Reboot, and enjoy!
+5. Change the `pi_id` in config.sh and config.yaml using nano (or whichever editor you prefer).
+
+6. Reboot and enjoy!
+
+## NOTE
+Because the updated scripts are still in development, any changes made to a config must be made in both config.sh and config.yaml
+
+Also, push.py is not currently working
