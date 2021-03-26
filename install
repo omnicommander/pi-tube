@@ -10,9 +10,6 @@ fi
 # go to root directory
 cd /
 
-# Install mpv
-apt-get install mpv -y
-
 # Install required python packages
 # pytube, pyyaml
 python3 -m pip install pytube pyyaml
@@ -20,6 +17,13 @@ python3 -m pip install pytube pyyaml
 #create logs/fetch.log
 mkdir /home/pi/OC-DigitalSignage/logs
 touch /home/pi/OC-DigitalSignage/logs/fetch.log
+
+read -p "Do you wish to set the PI_UID now? (Y/n)" yn
+case $yn in
+    [Yy]* ) nano +8,9 /home/pi/OC-DigitalSignage/config.sh;;
+    [Nn]* ) ;;
+    * ) nano +8,9 /home/pi/OC-DigitalSignage/config.sh;;
+esac
 
 # export current crontab to mycron
 crontab -l > mycron_old
