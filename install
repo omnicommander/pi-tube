@@ -10,12 +10,6 @@ fi
 # go to root directory
 cd /
 
-# test for bc
-command -v bc >/dev/null 2&1 || {
-    printf "Installing bc";
-    apt-get install bc -y
-}
-
 # Install required python packages
 # pytube, pyyaml
 python3 -m pip install pytube pyyaml
