@@ -10,32 +10,52 @@ fi
 # go to root directory
 cd /
 
-# test for jq
-command -v jq >/dev/null 2>&1 || {
-    printf >&2 "I require jq but it's not installed, so I am installing it now.\n";
-    # install jq for the json
-    apt-get install jq -y
-}
-# test for youtube-dl
-command -v youtube-dl >/dev/null 2>&1 || {
-    printf >&2 "I require youtube-dl but it's not installed, so I am installing it now.\n";
-
-    # install youtube-dl
-    apt install youtube-dl
-
-    # make it executable so we can run it
-    chmod a+rx /usr/local/bin/youtube-dl
-}
-
 # test for bc
 command -v bc >/dev/null 2&1 || {
-    printf >&2 "I require bc but it is not installed, so I am installing it now. \n";
+    printf "Installing bc";
     apt-get install bc -y
 }
 
-# exit out
-printf "\nWell done, young Commander!\n"
-printf "Installation is now complete. Please reboot to begin use, and be patient on reboot as I have to download video files on boot.\n"
-printf "I will begin playing the videos in a loop once he download completes."
+# Install required python packages
+# pytube, pyyaml
+python3 -m pip install pytube pyyaml
+
+#create logs/fetch.log
+mkdir /home/pi/OC-DigitalSignage/logs
+touch /home/pi/OC-DigitalSignage/logs/fetch.log
+
+read -p "Do you wish to set the PI_UID now? (Y/n)" yn
+case $yn in
+    [Yy]* ) nano +8,9 /home/pi/OC-DigitalSignage/config.sh;;
+    [Nn]* ) ;;
+    * ) nano +8,9 /home/pi/OC-DigitalSignage/config.sh;;
+esac
+
+# export current crontab to mycron
+crontab -l > mycron_old
+
+# write new mycron --
+# Every 6hrs fetch and timestamp to last_cron
+echo "0 */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+
+# Every 15min push heartbeat and timestamp to last_cron
+echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+
+# Every morning at 4am reboot
+echo "0 4 * * * sudo /sbin/shutdown -r now" >> mycron
+
+# install new cron file
+crontab mycron
+rm mycron
+
+# Fix screen blanking
+cat <<EOF >> /etc/xdg/lxsession/LXDE-pi/autostart
+@xset s noblank
+@xset s off
+@xset s -dpms
+@/home/pi/OC-DigitalSignage/fetch
+EOF
+
+printf "Installation complete!\n"
 
 exit 0;
