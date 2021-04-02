@@ -31,9 +31,6 @@
 # The unique identifier for this device
 pi_id:
 
-# Secret encryption key to authenticate this device
-pi_secret: temporarykeypleasedontusethis
-
 #==================================|
 # Fidgety Settings                 |
 #==================================|
