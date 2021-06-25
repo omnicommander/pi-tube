@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import os
 
 # Write the paths of the videos to the playlist file
 with open('/home/pi/OC-DigitalSignage/playlist.txt', 'w') as playlist:
